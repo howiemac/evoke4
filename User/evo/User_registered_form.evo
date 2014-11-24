@@ -1,0 +1,15 @@
+div: cls="row"
+   div: cls="col-md-12"
+     h1: "check your e-mail to complete registration",cls='login'
+     p: "An e-mail should arrive in a minute or two."
+     p: "If you cannot see it, CHECK YOUR SPAM (or junk) FOLDER: if it is there, please mark it as 'not spam'."
+     p: "Please follow the instructions on the email."
+     p: 
+       "Still no e-mail? Did you enter the correct address? if '%s' is wrong," % req.email
+       a: "please click here to register again.", href=self.url("register?redo=%s" % lib.url_safe(req.username))
+     p: 
+       "If the address is correct, contact us at"
+       a: self.Config.mailto ,href="mailto:%s" % self.Config.mailto
+       "for assistance."
+     p:
+       a: "ok", href=self.abs_url(self.Config.guests and "/" or "../index.html"), cls="btn btn-default"

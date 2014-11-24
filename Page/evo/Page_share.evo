@@ -1,0 +1,25 @@
+# include for Page_footer.evo
+div:id="share_link" 
+ text=lib.url_safe(self.name)
+ url=lib.url_safe(self.full_url())
+ # twitter
+ a: "TWEET this",  href="https://twitter.com/intent/tweet?original_referer=%s&text=%s&url=%s" % (url,text,url), target="_blank"
+ # google
+ "&nbsp;-"
+ a: "G+SHARE this", style="", href="https://plus.google.com/share?url=%s" % (url), target="_blank"
+## google +1 button
+# '<g:plusone size="medium" href="%s"></g:plusone>' % (self.full_url(),)
+# script:"(function() {var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true; po.src = 'https://apis.google.com/js/plusone.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);})();"
+
+## twitter popup button
+# '<a href="https://twitter.com/share" class="twitter-share-button" data-text="%s">Tweet</a>' % self.name[:100]
+# script:"!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='//platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','twitter-wjs');"
+
+# facebook
+#
+# text=lib.url_safe(self.text.formatted(req,chars=100))
+#  div:
+#     url=lib.url_safe(self.full_url())
+#    a:id="facebook", href="http://www.facebook.com/share.php?u=%s" % (url,), target='_blank'
+#     img:src="http://www.facebook.com/favicon.ico"
+#     "Facebook"

@@ -1,0 +1,24 @@
+# footer include for main pages 
+div: id='contentfooter'
+ 
+# next item ###################################################
+  div:id="next_nav"
+   order=self.get_pob().get_pref('order_by')
+   if order=='name':
+    next=self.get_next_alphabetical_item()
+    prev=self.get_previous_alphabetical_item() 
+   else: 
+    # i.e. order by date (same for latest)
+    next=self.get_newer_item()
+    prev=self.get_older_item()
+   if next: 
+    div:id='next_item'
+     a:href=next.url(),title=next.get_name() 
+      span:next.name
+      span:"&raquo;",cls='wee'
+   if prev: 
+    div:id='prev_item'
+     a:href=prev.url(),title=prev.get_name()  
+      span:"&laquo;",cls='wee'
+      span:prev.name
+    

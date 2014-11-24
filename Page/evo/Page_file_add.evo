@@ -1,0 +1,25 @@
+file=req.edit and self.get(req.edit) or None
+div: id='contentheader'
+ Page_header.evo
+div: id='content' 
+ if file:
+   file.Page_file_edit.evo
+ div: 'add a file',cls='huge'
+ form: action=self.url("add_file"), enctype="multipart/form-data" , id='uploadform'
+  fieldset:
+   dl:
+    dt:
+     label:'file', for_id="upload_file",
+    dd:
+     input: id="upload_file", type="file", cls='upload', size='40px', name="filedata", accesskey="B"
+     input: type="hidden", name="filename", value=""
+     if req.seq:
+      input: type="hidden", name="seq", value=req.seq
+#  buttonhot:'upload', onclick="$('filename').val($('filedata'.val()))" DOESN'T WORK
+  buttonhot:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U"
+ #/form
+ form: action=self.url() , cls='buttons'
+   buttoncool:'cancel'
+ br:
+ br:
+ Page_file_list.evo

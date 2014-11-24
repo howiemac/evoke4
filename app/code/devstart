@@ -1,0 +1,4 @@
+#echo starting serve ...
+/usr/local/bin/twistd -noy serve.py
+
+

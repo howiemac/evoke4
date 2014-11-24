@@ -1,0 +1,6 @@
+# this should be included for all pages with contentheader
+#
+# page tabs
+#big:req.page or "NONE"
+Page_options.evo
+ 

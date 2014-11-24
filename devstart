@@ -1,0 +1,4 @@
+#echo starting serve ...
+/usr/bin/twistd -noy multiserve.py
+
+

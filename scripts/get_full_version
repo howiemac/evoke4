@@ -1,0 +1,27 @@
+#!/usr/local/bin/python
+
+"""
+ output full version, as per evoke config
+ 
+ usage: get_full_version <folder> 
+
+"""
+
+from sys import argv
+
+try:
+  folder=argv[1]
+  if folder and not folder.endswith('/'):
+    folder+='/'
+except:
+  folder='./'  
+
+fn="%sconfig_base.py" % folder
+for line in open(fn):
+  if line.startswith('evoke_version='):
+    minor=line.split('#')[0].split('=')[1].strip()
+  elif line.startswith('evoke_major_version'):
+    major=line.split('#')[0].split('=')[1].strip()
+    
+print "%s.%06d" % (major,int(minor))    
+

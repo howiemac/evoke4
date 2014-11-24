@@ -1,0 +1,3 @@
+div: cls="row" 
+  div: cls="col-md-12"
+    a: "ok", href=self.abs_url(""), cls="btn btn-default"

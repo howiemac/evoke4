@@ -1,0 +1,50 @@
+# include for Page_image_edit.evo, when editing an image : self must be an image
+div: 'image edit', cls='huge'
+br:
+div:
+  a:href=self.url(), title=self.name
+    img: cls="editacts", src=self.thumb_url(), alt=self.name
+  form: action=self.url("edit")
+  #, enctype="multipart/form-data" 
+    dl:
+     dt:
+      label:'caption', for_id='image_desc'
+     dd:
+      input: id='image_desc', name='name', value=self.name, size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+#      textarea: self.name, id='image_desc', name='name', cols=80
+     dt:
+      label:'position'
+     dd:
+      pos=self.get_pos()
+      input: type='hidden', name="pos", id="pos%s" % self.uid, value=pos, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+      for p in ["left","center","right"]:
+       button:p, type="button", style='width:50px', id='pos%s%s' % (self.uid,p), cls= (p==pos and 'pressed' or 'released'), onclick="select('pos%s','%s')" % (self.uid,p) 
+     dt:
+      label:'size'
+     dd:
+      size=self.get_size()
+      input: type='hidden', name="size", id="size%s" % self.uid, value=size, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+      for s in ["full","thumb"]:
+       button:s, type="button", style='width:50px', id='size%s%s' % (self.uid,s), cls= s==size and 'pressed' or 'released', onclick="select('size%s','%s');$('#imagewidth').val('%s')" % (self.uid,s,self.get_width(size=s)) 
+      input: name='width',id='imagewidth',size=4,value=self.get_width()
+## links
+#     span:self.stage
+#     dt:
+#      label:'link URL', for_id="image_link",
+#     dd:
+#      input: id='image_link', name='url', value=self.get_link_url(), size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+## replace
+#     if not req.filedata:
+#      div: cls='row'      
+#       dt:
+#        label:'replace with', for_id="image_file",
+#       dd:
+#        input: id="image_file",size='40px', type="file", name="filedata", accept="image/jpeg,image/png,image/gif", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+#        input: type="hidden", name="filename", value=""
+#    buttonhot:'save', onclick="javascript:form.filename.value=form.filedata.value;confirmExit = false",accesskey="S"
+    buttonhot:'save', onclick="confirmExit = false",accesskey="S"
+  #/form
+  form: action=self.url("remove"), onclick="return confirm('are you sure you wish to delete this image?')"
+   buttoncool:'delete'
+  br:
+  br:

@@ -1,0 +1,24 @@
+canedit=req.user.can('edit user')
+
+div: cls="row"
+  div: cls="col-md-12"
+    h1: 'registrations'
+    if canedit and self.Config.registration_method=='admin': # registration by admin only
+      a:'click here to register a new member',href=self.get(1).url('register'), cls="btn btn-default"
+
+    table: cls="table table-striped"    
+
+      for item in req.items:
+        tr:
+          td:
+            a: item.id, href=item.url('edit')
+          td:
+            if item.stage:
+              span: "verified"
+            elif canedit:
+              a: "verify", href=item.url('verify_manually'), cls="btn btn-default"
+            if (not item.stage) and canedit:
+              a: "remove", href=item.url('remove'), cls="btn btn-default"
+          td:
+            if canedit:
+              a: item.email, href="mailto:%s" % item.email

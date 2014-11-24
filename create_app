@@ -1,0 +1,43 @@
+#! /usr/bin/python
+import sys
+from shutil import copytree,rmtree #,move
+from os import walk
+
+help="""
+clone an evo application in a folder named appname (this must not already exist)
+usage: create_app appname 
+options:  <none>
+(IHM Nov 2007 onwards)
+"""
+if len(sys.argv)>1:
+ app=sys.argv[1] #arguments
+
+ #copy the files
+ print 'creating "%s"...' % app 
+ dst="../%s" % app
+ copytree("app",dst,symlinks=True)
+
+# #rename local css and js
+# move("%s/htdocs/site/app.css" % dst,"%s/htdocs/site/%s.css" %(dst,app)) 
+# move("%s/htdocs/site/app.js" % dst,"%s/htdocs/site/%s.js" %(dst,app)) 
+
+ #remove .svn folders
+ for path,dirs,files in walk(dst):
+  if ".svn" in dirs:
+   rmtree(path+'/.svn')
+
+ print """
+"%s" created.
+
+Now:
+     1) import to repository, if desired
+THEN 2) change directory to ../%s/code/
+THEN 3) create config_site.py for the app, if required 
+THEN 4) ./devstart  (or ./start) to create the database, and start the server
+
+NOTE: Database name will default to "%s" unless overridden in config_site.py
+""" % (app,app,app)
+
+else:
+  print help
+  

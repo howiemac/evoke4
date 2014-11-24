@@ -1,0 +1,5 @@
+# inclusion to display text
+div: cls="row"
+  div:cls='col-md-12 text'
+    self.text.formatted(req)
+        

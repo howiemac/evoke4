@@ -1,0 +1,35 @@
+signup_caption = self.Config.registration_method=='admin' and 'register' or 'sign up'
+
+div: cls="row"
+  div: cls="col-md-12"
+
+    h1:cls='login'
+      'sign up for a new account'
+
+    form:action=self.url("register"), cls="form-horizontal", id="registration_form"
+      fieldset:
+        legend: 'please enter all fields'
+        div: cls="form-group" 
+          label:'username:', for_id="user_login", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_login", name="username", value=req.username or req.redo, placeholder="User Name"
+        div: cls="form-group" 
+          label:'email address:', for_id="user_email", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_email", name="email", value=req.email, placeholder="Your Email"
+        div: cls="form-group" 
+          label:'password:', for_id="user_password", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_password", name="pass1", type="password", value=req.pass1, placeholder="Password"
+        div: cls="form-group" 
+          label:'re-enter password:', for_id="user_password_confirmation", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_password_confirmation", name="pass2", type="password", value=req.pass2, placeholder="re-enter password"
+        input: type='hidden', name='redo', value=req.redo
+
+        if self.Config.registration_method=='approve':
+					div: cls="form-group" 
+						label:'introduction:', for_id="user_password_story", cls="col-md-2"
+						div: cls="col-md-10"
+							textarea: id="user_password_story", name="story", rows=8, placeholder="I would like to register because: ..." 
+        button: signup_caption, type="submit", cls="btn btn-default"

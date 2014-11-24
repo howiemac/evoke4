@@ -1,0 +1,25 @@
+if self.get_files():
+ div: id="file_list"
+  table:
+   tr:cls='head'
+    th:'name'
+    th:'caption &nbsp;'
+    th:'&nbsp;'
+   for i in self.files:
+    url=self.url('add_file?edit=%s' % i.uid)
+    tr:
+     td:
+      a:i.code,href=url
+     td:
+      a:i.name,href=url
+     td:
+      div:cls='sectionacts'
+       if req.user.can(self.swap):
+        prev=lib.prev(i,self.files)
+        if prev:
+         a: title="move up", href=i.url("swap?swap=%s" % prev.uid) 
+          img: src='%s/edit_buttons/up.gif' % self.theme_url()
+        next=lib.next(i,self.files)
+        if next:
+         a: title="move down", href=i.url("swap?swap=%s" % next.uid) 
+          img: src='%s/edit_buttons/down.gif' % self.theme_url()

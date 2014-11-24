@@ -1,0 +1,39 @@
+# standard wrapper head
+head:
+  # jQuery
+  script: src="/site/base/jquery-2.1.1.min.js", type="text/javascript"
+
+  # Bootstrap
+  link: rel="stylesheet", type="text/css",  href="/site/base/bootstrap/css/bootstrap.min.css"
+  script: src="/site/base/bootstrap/js/bootstrap.min.js", type="text/javascript"
+
+  # Web Fonts
+  # body text
+  link: href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css'
+  # headings
+  link: href='http://fonts.googleapis.com/css?family=Kreon:700', rel='stylesheet', type='text/css'
+
+  # Base
+  script: src="/site/base/base.js"
+
+  # App
+  link: rel="stylesheet", type="text/css" , media="screen" ,href="/site/css/app.css" 
+#  link: rel="stylesheet", type="text/css" , media="print" , href="/site/css/app_print.css" 
+  script: src="/site/js/app.js", type="text/javascript"
+
+  # Mobile first layout
+  meta: name="viewport", content="width=device-width, initial-scale=1"
+
+  # metadata
+  TITLE=req.user.get_HTML_title(self,req)
+  title:TITLE 
+  meta: equiv="Content-Type", content="text/html; charset=utf-8"
+  meta: equiv="Reply-to", content=self.Config.mailto
+  meta: name="title", content=TITLE
+  meta: name="description", content=self.Config.meta_description
+  meta: name="keywords", content=self.Config.meta_keywords
+  meta: name="author", content="Ian Howie Mackenzie and Christopher J Hurst"
+  meta: name="copyright", content="Evoke Foundation"
+  meta: name="ROBOTS", content="INDEX,FOLLOW"
+  meta: name="creation-date", content=lib.DATE()
+  meta: name="revisit-after", content="7 days"

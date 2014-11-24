@@ -1,0 +1,25 @@
+#!/usr/local/bin/python
+
+"""
+ output version, as per evoke config
+ 
+ usage: get_version <folder> 
+
+"""
+
+from sys import argv
+
+try:
+  folder=argv[1]
+  if folder and not folder.endswith('/'):
+    folder+='/'
+except:
+  folder='./'  
+
+fn="%sconfig_base.py" % folder
+for line in open(fn):
+  if line.startswith('evoke_version='):
+    minor=line.split('#')[0].split('=')[1].strip()
+    
+print "%06d" % int(minor)    
+

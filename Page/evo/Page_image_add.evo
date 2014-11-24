@@ -1,0 +1,26 @@
+image=req.edit and self.get(req.edit) or None
+div: id='contentheader'
+ Page_header.evo
+div: id='content' 
+ if image:
+   image.Page_image_edit.evo
+ div: 'add an image',cls='huge'
+ form: action=self.url("add_image"), enctype="multipart/form-data" , id='uploadform'
+  fieldset:
+   dl:
+    dt:
+     label:'image file', for_id="image_file"
+    dd:
+     input: id="image_file", type="file", cls='upload', size='40px', name="filedata", accept="image/jpeg,image/png,image/gif", accesskey="B"
+     input: type="hidden", name="filename", value=""
+     if req.seq:
+      input: type="hidden", name="seq", value=req.seq
+  buttonhot:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U"
+ br:
+ br:
+ #/form
+ Page_image_list.evo
+ 
+div:
+ br:
+ a: "...back", href=self.url()

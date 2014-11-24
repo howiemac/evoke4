@@ -1,0 +1,15 @@
+div: cls="row"
+  div: cls="col-md-12"
+    h1: 'password reminder'
+    form: action=self.url("reminder"), cls="form-horizontal", id="reminder_form", role="form"
+      fieldset:
+        legend:'enter your username OR email address'
+        div: cls="form-group" 
+          label:'username:', for_id="user_id", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_id", name="id", value=req.id
+        div: cls="form-group" 
+          label:'email address:', for_id="user_email", cls="col-md-2"
+          div: cls="col-md-10"
+            input: id="user_email", name="email", type="text", atts='value=req.email'
+        button: "remind me", type="submit", cls="btn btn-default"

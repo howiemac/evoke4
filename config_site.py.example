@@ -1,0 +1,11 @@
+"""
+config file for site specific items which apply to all applications
+
+this overrides config_base, and is overridden by other config files
+
+THIS SHOULD NOT BE STORED IN THE REPOSITORY
+
+"""
+
+connect=("127.0.0.1", "root", "123456") #database connection parameters - normally only required here
+

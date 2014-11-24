@@ -1,0 +1,17 @@
+# include for Page_view_form.evo 
+for item in req.pages:
+  a:name=item.uid
+  div: cls= "summary articles row"
+    div: cls="col-md-12"
+      # title  #
+      a:href=item.url()
+        span:item.get_name(), cls="big  %s" % (item.rating>=0 and 'enabled' or 'disabled',)
+        span:item.status(), cls='bright wee' 
+      # tagline #
+      span:item.tagline(showtime=self.get_pref('show_time')),cls='light wee'
+      # text, for view pages only  #
+      if req.page=='view':
+        item.Page_summarytext.evo
+      if req.page and (len(req.pages)==req.pagesize):
+        div:cls="summary"
+          a:"more...",cls='big',href=self.url('%s?pagenext=%s' % (req.page,req.pagenext))

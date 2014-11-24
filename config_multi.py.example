@@ -1,0 +1,15 @@
+"""
+config file for multiserver site specific items, eg database, port, apps
+
+used only when running multi-app server
+
+this overrides all other config files
+
+THIS SHOULD NOT BE STORED IN THE REPOSITORY
+
+"""
+
+apps=['sun','evoke'] #essential
+port='8080' #essential
+
+

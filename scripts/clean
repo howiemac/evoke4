@@ -1,0 +1,30 @@
+#!/usr/local/bin/python
+
+"""
+ remove pyc files
+ 
+ usage: clean <folder> 
+
+"""
+
+from sys import argv
+from os import walk, remove
+
+
+try:
+  folder=argv[1]
+  if folder and not folder.endswith('/'):
+    folder+='/'
+except:
+  folder='./'  
+
+#remove .pyc folders
+n=0
+for path,dirs,files in walk(folder):
+  for name in files:
+    if name.endswith('.pyc'):
+#      print path+'/'+name
+      remove(path+'/'+name)
+      n+=1
+print n,'.pyc files removed'
+

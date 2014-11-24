@@ -1,0 +1,3 @@
+# fixes permits of flat files for apache - this does base/site only
+chmod  ogu+rX ../base
+chmod -R ogu+rX site

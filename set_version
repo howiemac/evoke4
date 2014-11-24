@@ -1,0 +1,47 @@
+#!/usr/bin/python
+
+"""
+ get version from svn, set it in evoke, and commit the result
+ 
+ usage: set_version <folder> 
+
+"""
+
+from HTMLParser import HTMLParser
+from sys import argv
+from os import system
+
+print argv
+try:
+  folder=argv[1]
+  if folder and not folder.endswith('/'):
+    folder+='/'
+except:
+  folder='./'  
+try:
+  ver=argv[2]
+except:
+  ver='2'  
+
+def set_evoke_version(ver):
+  fn="%sconfig_base.py" % folder
+  new=[]
+  for line in open(fn):
+    if line.startswith('evoke_version='):
+      new.append("evoke_version=%s #%s"  % (ver,line.split('#')[1]))
+    else:
+      new.append(line)
+  d=open(fn,'w')
+  d.writelines(new)
+
+class htmlparse(HTMLParser):
+
+  def handle_starttag(self, tag, attrs):
+    if tag=='entry':
+      d=dict(attrs)
+      if d['name']=="":
+        set_evoke_version(d['revision'])
+
+system('svn update '+folder) #get latest revision
+htmlparse().feed(open(folder+'.svn/entries').read())
+system('svn commit %sconfig_base.py -m "version set by set_version"' % folder)

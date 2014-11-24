@@ -1,0 +1,12 @@
+- replace req.req and url.req with the new mp.base versions...
+
+- there should be a base EvoType object, even if it only has the __hash__ declaration in it. 
+
+- port mp Page to evoke (underway....)
+ - user sessions
+    * migrate session table to session cache (CJH)
+    * flat files are all currently going through validation (not relevand when fielded by apache) (CAN I MAKE THIS SWITCHABLE VIA A CONFIG const?)
+ - test Evoke with mp
+ - test Evoke with Grace 6 apps
+
+- we need to be able to add and include types in apps, so that e.g. lib/TEXT() can be put in Page app (where it belongs)

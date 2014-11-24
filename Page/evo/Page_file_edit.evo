@@ -1,0 +1,25 @@
+# include for Page_file_edit.evo, when editing a file : self must be a file
+div: 'file edit', cls='huge'
+form: action=self.url("edit")
+#, enctype="multipart/form-data" 
+  dl:
+    dt:
+      label:'caption', for_id='file_desc'
+    dd:
+      input: id='file_desc', name='name', value=self.name, size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+#    dt:
+#      label:'replace with', for_id="upload_file",
+#    dd:
+#      input: id="upload_file",size='40px', type="file", name="filedata"
+#      input: type="hidden", name="filename", value=""
+    dt:
+      label:'rename file to', for_id='file_name'
+    dd:
+      input: id='file_name', name='code', value='', size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+  buttonhot:'save', accesskey="S", onclick="javascript:confirmExit = false;"
+  # form.filename.value=form.filedata.value;"
+  #/form
+form: action=self.url("remove"), onclick="return confirm('are you sure you wish to delete this file?')"
+  buttoncool:'delete'
+br:
+br:

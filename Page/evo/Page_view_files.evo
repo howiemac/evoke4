@@ -1,0 +1,8 @@
+# inclusion listing download files
+if self.get_files():
+ div:cls='row downloads'
+  div:'files for download:',cls='light wee'
+  ul:
+   for _file in self.files:
+    li:cls='download'
+     a:_file.name ,href=_file.file_url(), title="download this file"

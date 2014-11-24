@@ -1,0 +1,42 @@
+"""
+config file for Page
+
+"""
+
+from base.data.schema import *
+
+# the following are defaults and should not be removed - they are likely to be overridden in an app's config.py or config_site.py  
+ratings=True  # can pages be rated? valid values are False, True, and "admin" (only page admins see/set ratings)
+attribution="full" # are author's names credited in page headers and listings? Can be "full" (headers and lists), "minimal" (page headers only), or False   
+show_time=True # is the date/time of items shown?
+order_by='latest' # default page listing order 
+thumb_size=120 # image thumbnail size (width)  - this is storage size, they may be displayed smaller using CSS
+
+
+# the following are overrides of config_base parameters
+permits={'master':['be'],'user':['edit'],'page':['create','edit','admin']} #basis of permit system
+#default_permits={} #default permits a new user gets
+default_permits={'page':['create','edit']}#default permits a new member gets
+
+
+
+#the following data schema may be subclassed or overidden in an app's config.py
+class Page(Schema):
+  table='pages'
+  code=TAG,KEY
+  parent=INT,KEY # defines a hierarchy
+  lineage=STR
+  name=TAG,KEY
+  kind=TAG,KEY
+  stage=TAG,'live',KEY
+  when=DATE,now
+  text=TEXT,KEY
+  seq=INT,KEY
+  rating=INT
+  prefs=TEXT
+  insert=[
+    dict(uid=1,parent=1,name='welcome',kind='root',lineage="."),
+    dict(uid=2,parent=1,code='admin',name='admin',kind='admin',lineage=".1."),
+    ]
+
+ 
