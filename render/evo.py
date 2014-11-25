@@ -364,6 +364,7 @@ thead=tag('thead')
 title=tag("title")
 tr=tag('tr')
 ul=tag('ul')
+nav=tag("nav")
 # obsolete but useful
 style=tag('style')
 font=tag('font')
