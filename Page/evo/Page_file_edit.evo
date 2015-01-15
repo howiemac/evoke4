@@ -19,7 +19,7 @@ form: action=self.url("edit_file")
   button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
   # form.filename.value=form.filedata.value;"
 #/form
-form: action=self.url("remove"), onclick="return confirm('are you sure you wish to delete this file?')"
+form: action=self.url("remove_file"), onclick="return confirm('are you sure you wish to delete this file?')"
   button:'delete', onclick="confirmExit = false", cls="btn btn-default"
 br:
 br:

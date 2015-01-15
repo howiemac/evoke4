@@ -1,22 +1,13 @@
 # contentheader include for main pages 
 div: id='contentheader'
   Page_header_start.evo
-  #star ratings
-#  if (not req.user.as_guest()): 
-  if self.Config.ratings:
-    can_vote= not req.user.is_guest()
-    div: id='rating', cls='stars'
-     count=0
-     for star in self.get_star_classes(req):
-      count=count+1
-      if can_vote:
-       a: cls=star, href=self.url("rate?rating=%s" % (count-3,))
-      else:  
-       a: cls=star
   #title
   div:id='pagetitle'
    h1:self.get_name()
-   if self.name and self.code and (self.code!=self.name):
-    span:"(%s)" % self.code, id='pagecode'
+#   if self.name and self.code and (self.code!=self.name):
+#    span:"(%s)" % self.code, id='pagecode'
    span: self.status(),cls='bright', id='pagestatus'
+  #rating
+  Page_rating.evo
+  #header-end
   Page_header_end.evo

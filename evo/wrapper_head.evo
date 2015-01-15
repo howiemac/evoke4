@@ -14,11 +14,11 @@ head:
   link: href='http://fonts.googleapis.com/css?family=Kreon:700', rel='stylesheet', type='text/css'
 
   # Base
+  link: rel="stylesheet", type="text/css" ,href="/site/base/base.css" 
   script: src="/site/base/base.js"
 
   # App
-  link: rel="stylesheet", type="text/css" , media="screen" ,href="/site/css/app.css" 
-#  link: rel="stylesheet", type="text/css" , media="print" , href="/site/css/app_print.css" 
+  link: rel="stylesheet", type="text/css" , href="/site/css/app.css" 
   script: src="/site/js/app.js", type="text/javascript"
 
   # Mobile first layout

@@ -36,8 +36,6 @@ div: id="content", cls="%s_content" % self.kind
           h2:section.name
         else:  
          h2:section.name   
-     # images  #################################################### 
-     section.Page_view_images.evo 
      # text  #################################################### 
      section.Page_view_text.evo
      # files  #################################################### 
@@ -47,8 +45,8 @@ div: id="content", cls="%s_content" % self.kind
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
  
- # Page Actions 
- Page_actions.evo
+# # Page Actions 
+# Page_actions.evo
  # subpage summaries, and comments  ###################################################################### 
  Page_subpages.evo
  Page_child_pages.evo

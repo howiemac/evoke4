@@ -3,9 +3,10 @@ Page_header.evo
 theme=self.theme_url()
 # content ###################################################################### 
 div: id="content", cls="%s_content" % self.kind.replace(" ","_")
-# actions ##############################
  Page_content_header.evo
-# start of section ###################################### 
+ # Page Actions
+ Page_actions.evo
+ # start of section ###################################### 
  for section in self.sections:
   if not section.cellcount:
    #start a new row, if relevant.. i.e. ignore cell-holder sections
@@ -79,8 +80,6 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
    #/row /cell /section
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
- # Page Actions
- Page_actions.evo
  # subpage summaries, and comments  ###################################################################### 
  Page_subpages.evo
  Page_child_pages.evo

@@ -1,0 +1,12 @@
+#star ratings
+if (not req.user.as_guest()): 
+  if self.Config.ratings:
+    can_vote= not req.user.is_guest()
+    div: id='rating', cls='stars'
+     count=0
+     for star in self.get_star_classes(req):
+      count=count+1
+      if can_vote:
+       a: cls=star, href=self.url("rate?rating=%s" % (count-3,))
+      else:  
+       a: cls=star

@@ -1,7 +1,6 @@
 # footer include for main pages 
 div: id='contentfooter'
- 
-# next item ###################################################
+  # next item ###################################################
   div:id="next_nav"
    order=self.get_pob().get_pref('order_by')
    if order=='name':
@@ -21,4 +20,5 @@ div: id='contentfooter'
      a:href=prev.url(),title=prev.get_name()  
       span:"&laquo;",cls='wee'
       span:prev.name
-    
+  # nav links
+  Page_navbar.evo

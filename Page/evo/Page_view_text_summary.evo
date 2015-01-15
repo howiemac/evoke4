@@ -1,3 +1,2 @@
 # inclusion to display text
-span:self.text.summarised(req,chars=1000,lines=8), cls='wee'        
-        
+span:self.text.summarised(req,chars=1000,lines=8), cls='wee'

@@ -71,7 +71,7 @@ class TEXT(STR):
   ':-*':'blush'
   }
 
-  smilie_items= [(k,"<img src='/site/theme/smilies/%s.gif'/>" % v) for (k,v) in smilies.items()]
+  smilie_items= [(k,"<img src='/site/images/smilies/%s.gif'/>" % v) for (k,v) in smilies.items()]
   smilies_re= r'|'.join(map(re.escape,smilies.keys()))
   other_replace_items= [("<","&lt;"),(">","&gt;")] # don't want < in output as it causes text to be skipped by the browser
   other_replaces_re= r'|'.join(map(re.escape,dict(other_replace_items).keys()))

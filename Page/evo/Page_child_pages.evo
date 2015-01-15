@@ -12,6 +12,6 @@ for item in req.pages:
       # text, for view pages only  #
       if req.page=='view':
         item.Page_summarytext.evo
-      if req.page and (len(req.pages)==req.pagesize):
-        div:cls="summary"
-          a:"more...",cls='big',href=self.url('%s?pagenext=%s' % (req.page,req.pagenext))
+if req.page and (len(req.pages)==req.pagesize):
+  div:cls="summary"
+    a:"more...",cls='big',href=self.url('%s?pagenext=%s' % (req.page,req.pagenext))

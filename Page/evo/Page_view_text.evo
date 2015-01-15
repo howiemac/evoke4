@@ -1,5 +1,5 @@
-# inclusion to display text
+# inclusion to display text: self is a section
 div: cls="row"
   div:cls='col-md-12 text'
+    self.Page_view_images.evo
     self.text.formatted(req)
-        

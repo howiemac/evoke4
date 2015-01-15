@@ -1,9 +1,9 @@
 # actions ##############################
-if (not req.user.as_guest()) and self.get_actions(req):
+if (not req.user.as_guest()) and self.get_actions(req) and False:
   div:id='actions', cls="page-actions"
     div: cls="row"
-      div: cls="col-md-2"
-        label: "page actions"
+#      div: cls="col-md-2"
+#        label: "page actions"
       div: cls="col-md-4"
         for (label,url,hint,confirm,hilite,key) in req.actions:
           if label:

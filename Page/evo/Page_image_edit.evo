@@ -44,7 +44,7 @@ div:
 #    buttonhot:'save', onclick="javascript:form.filename.value=form.filedata.value;confirmExit = false",accesskey="S"
     button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
   #/form
-  form: action=self.url("remove"), onclick="return confirm('are you sure you wish to delete this image?')"
+  form: action=self.url("remove_image"), onclick="return confirm('are you sure you wish to delete this image?')"
    button:'delete', onclick="confirmExit = false", cls="btn btn-default"
   br:
   br:
