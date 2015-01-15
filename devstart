@@ -1,4 +1,3 @@
 #echo starting serve ...
-/usr/bin/twistd -noy multiserve.py
-
+./stop ; ./start && tail -f ../logs/twistd.log
 

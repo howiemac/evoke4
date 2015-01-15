@@ -160,8 +160,9 @@ class dispatcherCode(Parser):
     if req.user.can(fn):
       try:  # return the result of the function
         return fn(req)
-      except RecordNotFoundError:
-        return req.user.error(req, "record not found")
+#      except RecordNotFoundError, e:
+#        #return req.user.error(req,str(e))
+#        return req.user.error(req, "record not found")
       except Exception, e:  # describe an application error message
         print '============= TRACEBACK ================'
         sys.stderr.write(DATE().time()+'\n')
@@ -170,9 +171,10 @@ class dispatcherCode(Parser):
         sys.stderr.write('%s\n' % e)
         print '============= END ================'
         send_error(ob, e, sys.exc_info())
-        return req.user.error(req,
-                              """application error
-                              - please contact the system administrator""")
+ #       return req.user.error(req,
+ #                             """application error
+ #                             - please contact the system administrator""")
+        return req.user.error(req,"error: %s" % e)
     else:
       req.error = "you do not have permission to access the requested page"
       req.return_to = req.get_uri()  # makes login return to the desired page

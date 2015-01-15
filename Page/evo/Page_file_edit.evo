@@ -1,6 +1,6 @@
 # include for Page_file_edit.evo, when editing a file : self must be a file
 div: 'file edit', cls='huge'
-form: action=self.url("edit")
+form: action=self.url("edit_file")
 #, enctype="multipart/form-data" 
   dl:
     dt:
@@ -16,10 +16,10 @@ form: action=self.url("edit")
       label:'rename file to', for_id='file_name'
     dd:
       input: id='file_name', name='code', value='', size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-  buttonhot:'save', accesskey="S", onclick="javascript:confirmExit = false;"
+  button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
   # form.filename.value=form.filedata.value;"
-  #/form
+#/form
 form: action=self.url("remove"), onclick="return confirm('are you sure you wish to delete this file?')"
-  buttoncool:'delete'
+  button:'delete', onclick="confirmExit = false", cls="btn btn-default"
 br:
 br:

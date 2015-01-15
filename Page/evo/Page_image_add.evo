@@ -15,7 +15,7 @@ div: id='content'
      input: type="hidden", name="filename", value=""
      if req.seq:
       input: type="hidden", name="seq", value=req.seq
-  buttonhot:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U"
+  button:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U", cls="btn btn-primary"
  br:
  br:
  #/form

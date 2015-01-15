@@ -16,10 +16,12 @@ div: id='content'
      if req.seq:
       input: type="hidden", name="seq", value=req.seq
 #  buttonhot:'upload', onclick="$('filename').val($('filedata'.val()))" DOESN'T WORK
-  buttonhot:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U"
+  button:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U", cls="btn btn-primary"
  #/form
  form: action=self.url() , cls='buttons'
-   buttoncool:'cancel'
  br:
  br:
  Page_file_list.evo
+div:
+ br:
+ a: "...back", href=self.url()

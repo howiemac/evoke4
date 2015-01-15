@@ -45,8 +45,8 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
         div: cls='edithead row'
          div: cls='editacts col-md-2'
            if self.stage=='draft':
-             button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-primary"
-             button: "post", name='post', onclick="confirmExit = false", cls="btn btn-default"
+             button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-default"
+             button: "post", name='post', onclick="confirmExit = false", cls="btn btn-primary"
            else:
              button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-primary"
          div: cls='col-md-2'

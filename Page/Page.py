@@ -185,7 +185,7 @@ class Page(Image,File):
     return None
 
   def get_next_alphabetical_item(self):
-    "for articles and replies - in name order  - get next sibling of same kind as self"
+    "get next sibling, in name order, of same kind as self"
     if self.kind in self.postkinds:
       sib=self.list(parent=self.parent,kind=self.kind,stage='posted',where='(uid!=%s) and (name>="%s")' % (self.uid,self.name),limit=1,orderby='name')
       return sib and sib[0] or None
@@ -403,8 +403,11 @@ class Page(Image,File):
       order="`when`,uid" 
     return order
 
-  def get_child_pages(self,req,first=False,pagemax=50):
-    "pages sequenced according to 'order_by' preference (and optional req.year or req.date, or req.match; and req.limit or first)" 
+  def get_child_pages(self,req,first=False,pagemax=50,descend=False):
+    """pages sequenced according to 'order_by' preference 
+    - optional req.year or req.date, or req.match
+    - optional req.limit, or pagemax, or first (mutually exclusive - first always starts at the beginning)
+    """
     order=self.get_order()
     if req.date: # date in integer yyyymmdd format
         where="`when`=%d" % safeint(req.date) # date converted to safeint to foil SQL injection!
@@ -414,7 +417,7 @@ class Page(Image,File):
         where="name like '%s%%'" % req.match 
     else:
         where=""
-    if self.get_pref('show_descendants'): # shows every descendant posting you are allowed to see
+    if descend or self.get_pref('show_descendants'): # shows every descendant posting you are allowed to see
       if ('limit' in req):
         lim=safeint(req.limit)
       else: # default
@@ -913,15 +916,17 @@ class Page(Image,File):
   def get_pref(self,pref):
     "returns relevant pref from self.prefs, or container prefs, or Config"
     p=None
- #   print "getting pref: ",pref, " for " ,self.kind,self.uid
+#    print "getting pref: ",pref, " for " ,self.kind,self.uid
     if self.kind in self.default_prefs: # check own prefs
       p=self.get_prefs().get(pref)
 #      print "checking self: ",repr(p)
     if p is None: # check up along the lineage 
      lineage=reversed(self.lineage.strip(".").split("."))  
+#     print ">>> lineage = ",list(lineage)
      for l in lineage:
-      container=self.get(int(l))
-      if container.kind in self.default_prefs: # check container's prefs
+      if l:
+       container=self.get(safeint(l))
+       if container.kind in self.default_prefs: # check container's prefs
         p=container.get_prefs().get(pref)
 #        print "checking lineage: ",container.uid, container.name,"=>", repr(p)
 	if not p is None:
@@ -996,12 +1001,12 @@ class Page(Image,File):
     req.page='drafts' # for paging
     return self.listing(req)
 
-  def _latest(self,req,kinds="",order="`when` desc",where="",limit=50,first=False):
+  def _latest(self,req,kinds="",order="`when` desc",where="",limit=50, first=False):
     " what's new? - based on lineage of the page, so page 1 gives everything"
-    if first:
-     limit="0,%s" % first
+    if first: #  a non-False value for first must be the number of items to show (this overrides limit)
+     lim="0,%s" % first
     else: 
-     limit=limit and page(req,limit) or ""
+     lim=page(req,limit) if limit else ""
     _kinds=kinds or self.postkinds
     _where='%s%s lineage like "%s%%"' % (where and (where+" and ") or "",self.uid==1 and "rating>=0 and" or "",self.lineage+str(self.uid)+'.') 
     #print where 
