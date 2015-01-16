@@ -1,4 +1,5 @@
 # displays user name, mode toggle, and logout link
+# BEWARE - "self" here may not be a user...
 div: id="user"
   if req.user.is_guest():
     span: cls='login'

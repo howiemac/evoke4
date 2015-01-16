@@ -237,8 +237,11 @@ class User:
     "expire the user and password cookie"
     req.clear_cookie('evokeID')
     req.request.getSession().expire() 
+    if req.return_to:
+      return req.redirect(req.return_to)
     req.message='%s has been logged out' % req.user.id
     return req.redirect(self.fetch_user('guest').url('login')) #use redirect to force clean new login
+
 
   def register(self,req):
     "create new user record"
@@ -458,10 +461,12 @@ Welcome to %s.
 
   @classmethod
   def welcome(self,req):
-    "this is the default page for the app"
+    "the welcome page, when no object/instance is specified in the URL"
     if req.return_to:
       return req.redirect(req.return_to)
-    return self.get(1).view(req)
+    return req.redirect(self.Page.get(self.Config.page_default or 1).url())
+# or use this if Page is not installed or in use: 
+#    return self.get(1).view(req)
 
   def view(self,req):
     ""

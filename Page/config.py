@@ -36,7 +36,7 @@ class Page(Schema):
   prefs=TEXT
   insert=[
     dict(uid=1,parent=1,name='welcome',kind='root',lineage="."),
-    dict(uid=2,parent=1,code='admin',name='admin',kind='admin',lineage=".1."),
+    dict(uid=2,parent=1,name='admin',kind='admin',lineage=".1."),
     ]
 
  

@@ -1,8 +1,7 @@
 # options and user info
 if (not req.user.as_guest()):
   # user info
-  u=req.user
-  u.User_display.evo
+  User_display.evo
   # options
   if self.get_pageoptions(req):
     div:id='pageoptions'

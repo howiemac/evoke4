@@ -219,13 +219,20 @@ width: auto !important;
 }
 */
 
-/* navbar */
+/* ids */
 
 #navbar {
 padding: 1em;
 text-align:center;
 }
 
+#searchform {
+float:right;
+margin-top:0;
+}
+#gobutton {
+
+}
 
 /* section indent levels */
 .level0, .level1, .level2, .level3, .level4, .level5{

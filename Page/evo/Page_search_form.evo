@@ -1,0 +1,6 @@
+#search form
+div: id="searchform"
+  form: action=self.url("search")
+    input: name="searchfor", value="search", onfocus="searchFocus(this)", onblur="searchBlur(this)", onkeyup="searchChange(this)", onchange="searchChange(this)", alt="search"
+    button:cls="btn btn-default btn-sm", disabled="disabled", id='gobutton'
+      span:cls="glyphicon glyphicon-search"

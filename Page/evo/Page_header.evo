@@ -1,12 +1,13 @@
 # contentheader include for main pages 
 div: id='contentheader'
   Page_header_start.evo
+  Page_search_form.evo
   #title
   div:id='pagetitle'
-   h1:self.get_name()
-#   if self.name and self.code and (self.code!=self.name):
-#    span:"(%s)" % self.code, id='pagecode'
-   span: self.status(),cls='bright', id='pagestatus'
+    h1:self.get_name()
+#    if self.name and self.code and (self.code!=self.name):
+#     span:"(%s)" % self.code, id='pagecode'
+    span: self.status(),cls='bright', id='pagestatus'
   #rating
   Page_rating.evo
   #header-end
