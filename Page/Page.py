@@ -824,7 +824,7 @@ class Page(Image,File):
   def details(self,req):
     "link to edit of own details"
     req.page='details'
-    return req.user.edit(req)
+    return req.redirect(req.user.url("edit"))
 
 
 ###################### ratings ###################

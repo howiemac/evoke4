@@ -45,8 +45,6 @@ div: id="content", cls="%s_content" % self.kind
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
  
-# # Page Actions 
-# Page_actions.evo
  # subpage summaries, and comments  ###################################################################### 
  Page_subpages.evo
  Page_child_pages.evo

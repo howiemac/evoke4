@@ -3,20 +3,21 @@
 div:id='contentheader_bottom' 
 # page info ####################################################
   if self.uid>1:
-   div: id='pageinfo',cls='light wee'
-    span:req.prep or 'from'
-    span:cls="parentlink"
-     src=self.get_pob() 
-     a:src.get_name().replace(" ","&nbsp;"),href=src.url()
-    if self.kind in self.postkinds:
-     span: "&nbsp;&nbsp;"
-     editable=(not req.user.as_guest()) and req.user.can('admin page')
-     if self.Config.attribution:
-      # link to admin homepage
-      who=self.get(2)
-      "posted by" 
-      a:who.get_name(),href=who.url(),title="author's homepage" 
-     if self.get_pref('show_time'): 
-      "&nbsp;"
-      span:self.when.nice(long=False)
-     "&nbsp;"
+   div: id='pageinfo',cls='light'
+    span:req.prep or 'from', cls="wee"
+    src=self.get_pob() 
+    a:src.get_name().replace(" ","&nbsp;"),href=src.url(), cls="norm"
+    span:cls="wee"
+      "&nbsp;&nbsp;"
+      if self.kind in self.postkinds:
+        editable=(not req.user.as_guest()) and req.user.can('admin page')
+        if self.Config.attribution:
+          # link to admin homepage
+          who=self.get(2)
+          "posted by" 
+          a:who.get_name(),href=who.url(),title="author's homepage" 
+      if self.get_pref('show_time'): 
+        span: cls="wee"
+        "&nbsp;"
+        span:self.when.nice(long=False)
+        "&nbsp;"

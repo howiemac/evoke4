@@ -439,7 +439,7 @@ Welcome to %s.
 #            self.validate_user(req) #create the login cookie
 	return self.finish_edit(req) #redirects appropriately    
     return self.edit_form(req)
-  #edit.permit='edit user'
+  edit.permit='edit user'
 
   def finish_edit(self,req):
     "returns to user menu (if allowed)"

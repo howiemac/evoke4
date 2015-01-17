@@ -21,10 +21,11 @@ div: id="content", cls="%s_content" % self.kind
       else:
        input: id="prefs_%s" % name, name=name, value=self.get_pref(name) or '', size=defn[2] or ''
   div: cls='bigacts'
-   buttonhot:'update'
+   button:'update', cls="btn btn-primary"
 #/form
- form: action=self.url()
-   buttoncool:'cancel'
+div:
+ br:
+ a: "...back", href=self.url()
 
 
      

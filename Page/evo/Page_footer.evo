@@ -14,11 +14,13 @@ div: id='contentfooter'
     div:id='next_item'
      a:href=next.url(),title=next.get_name() 
       span:next.name
-      span:"&raquo;",cls='wee'
+#      span:"&raquo;",cls='wee'
+      span:cls='glyphicon glyphicon-chevron-right wee'
    if prev: 
     div:id='prev_item'
      a:href=prev.url(),title=prev.get_name()  
-      span:"&laquo;",cls='wee'
+#      span:"&laquo;",cls='wee'
+      span:cls='glyphicon glyphicon-chevron-left wee'
       span:prev.name
   # nav links
   Page_navbar.evo

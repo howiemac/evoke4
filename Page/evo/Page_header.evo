@@ -1,7 +1,7 @@
 # contentheader include for main pages 
 div: id='contentheader'
   Page_header_start.evo
-  Page_search_form.evo
+  Page_options.evo
   #title
   div:id='pagetitle'
     h1:self.get_name()

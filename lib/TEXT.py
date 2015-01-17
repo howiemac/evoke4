@@ -256,14 +256,14 @@ class TEXT(STR):
 
     def subBlockquote(match):
       g=match.groups()
-      return '<blockquote>\n%s</blockquote>' % (g[1] or g[4],)
+      return '<blockquote class="evoke">%s</blockquote>' % (g[1] or g[4],)
 
     def subQuote(match):
       g=match.groups()
       if g[1]:
         return '<q>%s</q>' % g[1] 
       else: # must be g[4] - these are done in this rule as they need re.MULTILINE
-        return '<blockquote>\n%s</blockquote>' % g[4]
+        return '<blockquote class="evoke">\n%s</blockquote>' % g[4]
 	
     def subStyle(match):
       g=match.groups()

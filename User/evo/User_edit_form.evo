@@ -39,9 +39,9 @@ div: cls="row"
                     task
                     if key=='master':
                       i:'when set, this overrides all other permits',cls='light wee'
-        button: "update", type="submit", cls="btn btn-default"
+        button: "update", type="submit", cls="btn btn-primary"
 
-    a: "cancel", href=self.url("finish_edit"), cls="btn btn-default"  
+    a: "skip", href=self.url("finish_edit"), cls="btn btn-default"  
 
 #          if (req.user.uid!=2) and (key=='master'):
 #           if self.get_permits().get(key,[]):
@@ -58,59 +58,3 @@ div: cls="row"
 # form: action=self.url("finish_edit")
 #  buttoncool:'cancel'
 
-if 0:
-	div: id='content'
-	 form: action=self.url("edit"), cls="bigform", id="edit_form"
-		fieldset:
-		 legend:'details'
-		 dl:
-			dt:
-			 label:'username:'
-			dd:
-			 input: name="id", disabled='disabled', value=self.id
-			if self.Config.user_email_required:
-			 dt:
-				label:'email address:', for_id="user_email"
-			 dd:
-				input: id="user_email", name="email", type="text", value=req.email or self.email
-			dt:
-			 label:'new password:', for_id="user_password"
-			if self.uid>1:
-			 dd:
-				input: id="user_password", name="pass1", type="password", value=req.pass1
-			 dt:
-				label:'re-enter password:', for_id="user_password_confirmation"
-			 dd:
-				input: id="user_password_confirmation", name="pass2", type="password", value=req.pass2
-		if req.user.can('edit user'):
-		 fieldset:
-			legend:'permits'
-			if req.uid==2:
-			 dl:
-				dt:
-				 label:"master"
-				dd:"this is the system admin user, with master rights"
-			else:
-			 dl:
-				if req.user.can('edit user'):
-				 for (key,tasks) in self.sorted_permit_items():
-					dt:
-					 label:key+":"
-					dd:
-					 for task in tasks:
-						input: type='hidden', id="%s_%s" % (key,task), name="%s.%s" % (key,task), value=(task in self.get_permits().get(key,[])) and "Y" or ""
-						if (req.user.uid!=2) and (key=='master'):
-						 if self.get_permits().get(key,[]):
-							span:"GRANTED"
-							span:"by %s" % self.id, cls='light wee'
-						 else:
-							span:"not granted"
-						else:
-						 button:task, type="button", id='%s_%sB' % (key,task), cls=(task in self.get_permits().get(key,[])) and 'pressed' or 'released', onclick="toggle('%s_%s')" % (key,task)
-						 if key=='master':
-							span:'when set, this overrides all other permits',cls='light wee'
-		div: cls='bigacts'
-		 buttonbig:'update'
-	 form: action=self.url("finish_edit")
-		buttoncool:'cancel'
-	#/form

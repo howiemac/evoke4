@@ -22,3 +22,5 @@ div: cls="row"
           td:
             if canedit:
               a: item.email, href="mailto:%s" % item.email
+    
+    a: "skip", href=self.url("welcome"), cls="btn btn-default"  

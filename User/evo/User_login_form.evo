@@ -22,7 +22,7 @@ div: cls="row"
       div: cls="checkbox"
         input:type="checkbox", value='1',name="evokePersist", checked=req.get('cookies', {}).get('evokePersist', '') and 'checked' or '', id="cb_remember"
         'remember my name'
-      button: "log in", type="submit", cls="btn btn-default"
+      button: "log in", type="submit", cls="btn btn-primary"
       input: type="hidden", name="evokeLogin", value="1"
       if req.get('return_to'):
         input: type="hidden", name="return_to", value=req.get("return_to","")

@@ -13,5 +13,5 @@ div: id="user"
       img:src="/site/images/system/user.gif"
       a:req.user.id,href=req.user.url(),title='click here to alter your settings'
 #      a:mode and "&otimes;" or "&oplus;", href=req.user.url("toggle_mode?return_to=%s" % self.url(req._v_method)), title="%s view" % (mode and "guest" or "admin",)
-      span:cls='login'
+      span:cls="logout"
         a:'logout',href=req.user.url('logout?return_to=%s' % self.url()), title='log out'
