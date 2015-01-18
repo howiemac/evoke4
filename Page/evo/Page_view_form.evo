@@ -1,6 +1,5 @@
 # header ##################################
 Page_header.evo
-theme=self.theme_url()
 # content ###################################################################### 
 div: id="content", cls="%s_content" % self.kind
 # actions ##############################
@@ -45,8 +44,7 @@ div: id="content", cls="%s_content" % self.kind
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
  
- # subpage summaries, and comments  ###################################################################### 
- Page_subpages.evo
+ # child page add / summaries ###################################################################### 
  Page_child_pages.evo
  if self.kind=='help' and self.parent==1:
   div:self.Config.copyright.replace('\n','<br/>'), cls='light wee footnote'

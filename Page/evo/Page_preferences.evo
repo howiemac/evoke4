@@ -20,7 +20,7 @@ div: id="content", cls="%s_content" % self.kind
          option: opt, value=opt, selected=opt==self.get_pref(name) and 'selected' or '',
       else:
        input: id="prefs_%s" % name, name=name, value=self.get_pref(name) or '', size=defn[2] or ''
-  div: cls='bigacts'
+  div:
    button:'update', cls="btn btn-primary"
 #/form
 div:

@@ -203,6 +203,11 @@ width: auto !important;
 }
 */
 
+/* section edit action buttons */
+.sectionacts img{
+ height:16px;
+}
+
 
 /* section indent levels */
 .level0, .level1, .level2, .level3, .level4, .level5{

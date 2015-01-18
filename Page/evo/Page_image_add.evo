@@ -1,26 +1,20 @@
-image=req.edit and self.get(req.edit) or None
 div: id='contentheader'
- Page_header.evo
-div: id='content' 
- if image:
-   image.Page_image_edit.evo
- div: 'add an image',cls='huge'
- form: action=self.url("add_image"), enctype="multipart/form-data" , id='uploadform'
-  fieldset:
-   dl:
-    dt:
-     label:'image file', for_id="image_file"
-    dd:
-     input: id="image_file", type="file", cls='upload', size='40px', name="filedata", accept="image/jpeg,image/png,image/gif", accesskey="B"
-     input: type="hidden", name="filename", value=""
-     if req.seq:
+  Page_header.evo
+div: id='content'
+  image=self.get(req.edit) if req.edit else None
+  if image:
+    image.Page_image_edit.evo
+  form: action=self.url("add_image"), enctype="multipart/form-data" , id='uploadform', cls="form-horizontal", role="form"
+    fieldset:
+      legend: 'add an image'
+      div: cls="form-group"
+        div: cls="col-md-10"
+          input: type="file", name="filedata", accept="image/jpeg,image/png,image/gif", accesskey="B"
+      button:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U", cls="btn btn-primary"
+    input: type="hidden", name="filename", value=""
+    if req.seq:
       input: type="hidden", name="seq", value=req.seq
-  button:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U", cls="btn btn-primary"
- br:
- br:
- #/form
- Page_image_list.evo
- 
+  #/form
+  Page_image_list.evo
 div:
- br:
- a: "...back", href=self.url()
+  a: "...back", href=self.url()

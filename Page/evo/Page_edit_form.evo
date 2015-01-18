@@ -1,6 +1,5 @@
 # header ##################################
 Page_header.evo
-theme=self.theme_url()
 # content ###################################################################### 
 div: id="content", cls="%s_content" % self.kind.replace(" ","_")
  Page_content_header.evo
@@ -45,13 +44,13 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
 #            script:"sizeArea(document.getElementById('text'));"
 #            script:"$('textarea').autosize();"
         div: cls='edithead row'
-         div: cls='editacts col-md-2'
+         div: cls='col-md-2'
            if self.stage=='draft':
              button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-default"
              button: "post", name='post', onclick="confirmExit = false", cls="btn btn-primary"
            else:
              button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-primary"
-         div: cls='col-md-2'
+         div: cls='sectionacts col-md-2'
           section.Page_edit_buttons.evo
     else:
      # contents############################### 
@@ -66,7 +65,7 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
      if self.editable(req):
       div:cls='sectionacts'
        a: title="edit", href=section.url("edit_section#me") 
-        img: src='%s/edit_buttons/edit.gif' % theme
+        img: src='/site/images/edit_buttons/edit.gif'
        section.Page_edit_buttons.evo
      if is_section and section.name:
        div:cls="headline"
@@ -81,8 +80,8 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
    #/row /cell /section
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
- # subpage summaries, and comments  ###################################################################### 
- Page_subpages.evo
+ # child page add / summaries  ###################################################################### 
+ Page_child_add.evo
  Page_child_pages.evo
 #/content
 # footer (page info and prev/next item)  #################################################

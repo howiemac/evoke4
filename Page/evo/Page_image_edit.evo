@@ -3,7 +3,7 @@ div: 'image edit', cls='huge'
 br:
 div:
   a:href=self.url(), title=self.name
-    img: cls="editacts", src=self.thumb_url(), alt=self.name
+    img: cls="sectionacts", src=self.thumb_url(), alt=self.name
   form: action=self.url("edit_image")
   #, enctype="multipart/form-data" 
     dl:

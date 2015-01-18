@@ -3,18 +3,18 @@
 if not req.user.as_guest():
   div: cls="summary row"
     div: cls="col-md-12"
-     form: action=self.url("add_page"),cls='addpageform form-inline'
+     form: action=self.url("add_page"),cls='form-inline'
        # special selection criteria 
        if (self.kind in self.validchildkinds):
          kinds=self.validchildkinds[self.kind]
        else:
-         kinds= []  
+         kinds= []
        if kinds:
-         select: name='kind', id='textaddkind'
+         select: name='kind', cls="form-control"
            for kind in kinds:
-             option:"new %s" %  kind, value=kind, selected=kind==req.kind and "selected" or ""
+             option:"new child %s" %  kind, value=kind, selected=kind==req.kind and "selected" or ""
          div: cls="input-group"
-           input: name='name', value=req.get('name',''),id='textadd', cls="form-control"
+           input: name='name', value=req.get('name',''),id='textadd', cls="form-control",placeholder ="title"
            span: cls="input-group-btn"
              button:'create', type="submit", cls="btn btn-default"
       #/form

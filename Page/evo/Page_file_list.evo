@@ -18,8 +18,8 @@ if self.get_files():
         prev=lib.prev(i,self.files)
         if prev:
          a: title="move up", href=i.url("swap?swap=%s" % prev.uid) 
-          img: src='%s/edit_buttons/up.gif' % self.theme_url()
+          img: src='/site/images/edit_buttons/up.gif' % self.theme_url()
         next=lib.next(i,self.files)
         if next:
          a: title="move down", href=i.url("swap?swap=%s" % next.uid) 
-          img: src='%s/edit_buttons/down.gif' % self.theme_url()
+          img: src='/site/images/edit_buttons/down.gif' % self.theme_url()

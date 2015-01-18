@@ -369,7 +369,7 @@ class Page(Image,File):
     self.flush_page(req)
     self.clear_form(req)
     page=self.get_section_holder()
-    if req.post:
+    if "post" in req:
       return page.post(req)  
     if not (req.error or req.message):
       req.message="text saved at %s" % DATE().time(sec=True,date=False)
@@ -969,21 +969,6 @@ class Page(Image,File):
       self.prefs+='%s=%s\n' % (name,value)
 
 
-##################### preference related actions ##########
-  
-  def change_theme(self,req):
-    ""
-    # change the symlink
-    #
-    #req.refresh=True # force a full refresh by the browser
-    pass
-
-################## themes ##########################
-
-  def theme_url(self):
-    ""
-    return "/site/theme" 
-
 ###################### listings #########################
 
   @html
@@ -1080,13 +1065,11 @@ class Page(Image,File):
   def results(self,req):
     "search results"
 
-  @classmethod
-  def search_extra_objects(cls,term):
+  def search_extra_objects(self,term):
     "dummy to allow inheriting classes to insert other object results"
     return []
 
-  @classmethod
-  def search(cls,req):
+  def search(self,req):
     "search box supersearch"
     reslimit=200 # we don't want more results than this...
     resleft=0
@@ -1096,25 +1079,25 @@ class Page(Image,File):
     # is it a uid?
     if safeint(term):
         try: 
-          heads=[cls.get(safeint(term))]
+          heads=[self.get(safeint(term))]
         except:
           heads=[]
     # search for matches..
     if len(term)>2:
         req.searchfor=term #store clean version
         # get title matches first 
-        heads.extend(cls.list(where='name like "%%%s%%"' % term,orderby='uid desc'))
+        heads.extend(self.list(where='name like "%%%s%%"' % term,orderby='uid desc'))
         # now get text matches
         if len(heads)<reslimit:
             resleft=reslimit-len(heads)
             # get head uids
             head_uids=[a.uid for a in heads]
             # extensions
-            bodies=[ p for p in cls.search_extra_objects(term) if p.uid not in head_uids]        
+            bodies=[ p for p in self.search_extra_objects(term) if p.uid not in head_uids]        
             resleft=resleft-len(bodies)
             # full text search of text bodies - remove any duplicates
 #            if resleft>0:
-            bodies.extend(cls.list(where=("match `text` against ('%s' in boolean mode)" % term),orderby="uid desc"))
+            bodies.extend(self.list(where=("match `text` against ('%s' in boolean mode)" % term),orderby="uid desc"))
                 # we could limit the above to reslimit, but we don't know what is to be filtered out below....
                 # note: "against('%s')" ignores any match that is in more than 50% of the rows 
                 #  - we get round this by using "against('%s' in boolean mode)
@@ -1126,7 +1109,7 @@ class Page(Image,File):
             # add together
             heads.extend(bodies)
         # filter out private items
-        heads=cls.visible(req.user,heads)
+        heads=self.visible(req.user,heads)
         resfound=len(heads)
         # cut to size 
         heads=heads[:reslimit]    
@@ -1140,7 +1123,7 @@ class Page(Image,File):
     else:
       req.warning='no results found matching "%s"' % term  
     req.results=heads
-    return cls.get(1).results(req)
+    return self.get(1).results(req)
 #  search.permit="guest"#allow anybody in
 
 ################ move / copy / export / import ################
@@ -1244,7 +1227,7 @@ class Page(Image,File):
   def cancel_move(self,req):
     "clear the session cache move uid"
     req.cache.page_move=None
-    message='page move canceled' 
+    message='page move cancelled' 
     return self.view(req)
 
   def here(self,req):

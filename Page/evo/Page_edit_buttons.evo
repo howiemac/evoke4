@@ -1,19 +1,18 @@
-# inclusion for Page_view_form.evo, containing standard section edit buttons
+# inclusion for Page_edit_form.evo, containing standard section edit buttons
 if self.kind=='section':
- theme=self.theme_url()
  a: title="delete section", href=self.url("delete_section"), onclick="return confirm('are you sure you wish to delete this section?')"
-  img: src='%s/edit_buttons/delete.gif' % theme
+  img: src='/site/images/edit_buttons/delete.gif'
  if self.prevsib:
   d=(self.cell[0]=='1' and 'up' or 'left')
   a:title=("move "+d), href=self.url("swap?swap=%s" % self.prevsib.uid) 
-   img:src= '%s/edit_buttons/%s.gif' % (theme,d)
+   img:src= '/site/images/edit_buttons/%s.gif' % d
  if self.nextsib:
   d=(self.cell[0]=='1' and 'down' or 'right')
   a:title=("move "+d), href=self.url("swap?swap=%s" % self.nextsib.uid) 
-   img:src= '%s/edit_buttons/%s.gif' % (theme,d)
+   img:src= '/site/images/edit_buttons/%s.gif' % d
 if self.level==1 and self.cellcount<6:
  a: title="add a cell", href=self.url("add_cell#me")
-  img: src='%s/edit_buttons/add.gif' % theme
+  img: src='/site/images/edit_buttons/add.gif'
 elif self.level==2:
  # thanks to caching we can get the holder details (prevsib, nextsib) via get_pob:   
  holder=self.get_pob() 
@@ -21,11 +20,11 @@ elif self.level==2:
   # give up/down moves for holder (1st cell only) 
   if holder.prevsib:
    a:title=("move up"), href=holder.url("swap?swap=%s" % holder.prevsib.uid) 
-    img:src='%s/edit_buttons/up.gif' % theme
+    img:src='/site/images/edit_buttons/up.gif'
   if holder.nextsib:
    a:title=("move down"), href=holder.url("swap?swap=%s" % holder.nextsib.uid) 
-    img:src='%s/edit_buttons/down.gif' % theme
+    img:src='/site/images/edit_buttons/down.gif'
  # give add_cell for holder (last cell only, if less than 6 cells)   
  if (self.cell[1]!='6') and (self.cell[0]==self.cell[1]):   
   a: title="add a cell", href=holder.url("add_cell#me")
-   img: src='%s/edit_buttons/add.gif' % theme
+   img: src='/site/images/edit_buttons/add.gif'

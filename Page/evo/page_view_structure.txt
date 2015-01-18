@@ -7,6 +7,6 @@ Page_view_form.evo
   section.Page_view_text.evo
     section.Page_view_images.evo 
   section.Page_view_files.evo
-  Page_subpages.evo
+  Page_child_add.evo            (formerly Page_subpages.evo)
   Page_child_pages.evo
-  Page_footer.evo
+  Page_footer.ev
