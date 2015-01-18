@@ -1,0 +1,9 @@
+# Web Fonts - not used in default setup, but this template is a hook for override by apps
+
+# example:
+## body text
+#link: href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css'
+## headings
+#link: href='http://fonts.googleapis.com/css?family=Kreon:700', rel='stylesheet', type='text/css'
+
+" "

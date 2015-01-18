@@ -1,39 +1,10 @@
 # standard wrapper head
 head:
-  # jQuery
-  script: src="/site/base/js/jquery.js", type="text/javascript"
-  script: src="/site/base/js/jquery.autosize.js", type="text/javascript"
-
-  # Bootstrap
-  link: rel="stylesheet", type="text/css",  href="/site/base/bootstrap/css/bootstrap.min.css"
-  script: src="/site/base/bootstrap/js/bootstrap.min.js", type="text/javascript"
-
-  # Web Fonts
-  # body text
-  link: href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css'
-  # headings
-  link: href='http://fonts.googleapis.com/css?family=Kreon:700', rel='stylesheet', type='text/css'
-
-  # Base
-  link: rel="stylesheet", type="text/css" ,href="/site/base/css/base.css" 
-  script: src="/site/base/js/base.js"
-
-  # App
-  link: rel="stylesheet", type="text/css" , href="/site/css/app.css" 
-  script: src="/site/js/app.js", type="text/javascript"
-
-  # metadata
-  TITLE=req.user.get_HTML_title(self,req)
-  title:TITLE 
-  meta: equiv="Content-Type", content="text/html; charset=utf-8"
-  meta: equiv="Reply-to", content=self.Config.mailto
-  meta: name="title", content=TITLE
-  meta: name="description", content=self.Config.meta_description
-  meta: name="keywords", content=self.Config.meta_keywords
-  meta: name="author", content="Ian Howie Mackenzie and Christopher J Hurst"
-  meta: name="copyright", content="Evoke Foundation"
-  meta: name="ROBOTS", content="INDEX,FOLLOW"
-  meta: name="creation-date", content=lib.DATE()
-  meta: name="revisit-after", content="7 days"
-  # Mobile first layout
-  meta: name="viewport", content="width=device-width, initial-scale=1"
+  # CSS and JS imports
+  wrapper_head_resources.evo  
+  #  hook for apps to add webfonts
+  wrapper_head_webfonts.evo
+  # title
+  title:req.user.get_HTML_title(self,req)
+  # meta data
+  wrapper_head_meta.evo
