@@ -1,5 +1,8 @@
 # meta data for wrapper head
 head:
+  # title
+  TITLE=req.user.get_HTML_title(self,req)
+  title:TITLE
   meta: equiv="Content-Type", content="text/html; charset=utf-8"
   meta: equiv="Reply-to", content=self.Config.mailto
   meta: name="title", content=TITLE

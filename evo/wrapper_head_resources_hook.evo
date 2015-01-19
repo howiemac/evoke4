@@ -1,6 +1,7 @@
-# Web Fonts - not used in default setup, but this template is a hook for override by apps
+# this template is a hook for apps to add additional resources
 
 # example:
+## WEB FONTS
 ## body text
 #link: href='http://fonts.googleapis.com/css?family=Source+Sans+Pro', rel='stylesheet', type='text/css'
 ## headings
