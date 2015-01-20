@@ -1,50 +1,58 @@
-# include for Page_image_edit.evo, when editing an image : self must be an image
-div: 'image edit', cls='huge'
-br:
-div:
-  a:href=self.url(), title=self.name
-    img: cls="sectionacts", src=self.thumb_url(), alt=self.name
-  form: action=self.url("edit_image")
-  #, enctype="multipart/form-data" 
-    dl:
-     dt:
-      label:'caption', for_id='image_desc'
-     dd:
-      input: id='image_desc', name='name', value=self.name, size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-#      textarea: self.name, id='image_desc', name='name', cols=80
-     dt:
-      label:'position'
-     dd:
-      pos=self.get_pos()
-      input: type='hidden', name="pos", id="pos%s" % self.uid, value=pos, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-      for p in ["left","center","right"]:
-       button:p, type="button", style='width:50px', id='pos%s%s' % (self.uid,p), cls= (p==pos and 'pressed' or 'released'), onclick="select('pos%s','%s')" % (self.uid,p) 
-     dt:
-      label:'size'
-     dd:
-      size=self.get_size()
-      input: type='hidden', name="size", id="size%s" % self.uid, value=size, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-      for s in ["full","thumb"]:
-       button:s, type="button", style='width:50px', id='size%s%s' % (self.uid,s), cls= s==size and 'pressed' or 'released', onclick="select('size%s','%s');$('#imagewidth').val('%s')" % (self.uid,s,self.get_width(size=s)) 
-      input: name='width',id='imagewidth',size=4,value=self.get_width()
-## links
-#     span:self.stage
-#     dt:
-#      label:'link URL', for_id="image_link",
-#     dd:
+# an include for Page_image_add.evo
+#
+# note: when editing an image, self must be an image
+#
+form: action=self.url("edit_image"), cls="form-horizontal", role="form"
+#, enctype="multipart/form-data"  #required for replace (below)
+  fieldset:
+    legend: "edit image"    
+    div:cls="form-group"
+      div: cls="col-md-10"
+        a:href=self.url(), title=self.name
+          img: cls="sectionacts", src=self.thumb_url(), alt=self.name
+    div:cls="form-group"
+      label:'caption', for_id='image_desc', cls="col-md-2"
+      div: cls="col-md-10"
+        input: id='image_desc', name='name', value=self.name, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+        #textarea: self.name, id='image_desc', name='name', cols=80
+    div:cls="form-group"
+      label:'position', cls="col-md-2"
+      div: cls="col-md-10"
+        pos=self.get_pos()
+        div: cls="btn-group", role="group"
+          for p in ("left","center","right"):
+            label: cls="radio-inline"
+              input: type="radio",name="pos" ,value=p, checked="checked" if p==pos else ""
+              p
+    div:cls="form-group"
+      label:'size', cls="col-md-2"
+      div: cls="col-md-10"
+        size=self.get_size()
+        div: cls="btn-group", role="group"
+          for s in ("full","thumb"):
+            label: cls="radio-inline"
+              input: type="radio",name="size" ,value=s, checked="checked" if s==size else ""
+              s
+        input: name='width',id='imagewidth',size=4,value=self.get_width()
+
+## links O/S - NOT YET IMPLEMENTED (needs somewhere to store the link - in prefs?) O/S
+#      span:self.stage
+#      label:'link URL', for_id="image_link", cls="sr-only"
 #      input: id='image_link', name='url', value=self.get_link_url(), size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-## replace
+
+## replace O/S - DO WE NEED THIS? needs modifed to use a new uid for the replacement (but keeping the settings of the old image, which is the point!)
 #     if not req.filedata:
 #      div: cls='row'      
-#       dt:
-#        label:'replace with', for_id="image_file",
-#       dd:
+#        label:'replace with', for_id="image_file", cls="sr-only"
 #        input: id="image_file",size='40px', type="file", name="filedata", accept="image/jpeg,image/png,image/gif", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
 #        input: type="hidden", name="filename", value=""
-#    buttonhot:'save', onclick="javascript:form.filename.value=form.filedata.value;confirmExit = false",accesskey="S"
-    button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
-  #/form
-  form: action=self.url("remove_image"), onclick="return confirm('are you sure you wish to delete this image?')"
-   button:'delete', onclick="confirmExit = false", cls="btn btn-default"
-  br:
-  br:
+#    button:'save', onclick="javascript:form.filename.value=form.filedata.value;confirmExit = false",accesskey="S", cls="btn btn-default"
+
+  #/fieldset
+  button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
+  a:'delete', role="button", href=self.url("remove_image"), cls="btn btn-default", onclick="return confirm('are you sure you wish to delete this image?')"
+#/form
+#form: action=self.url("remove_image"), onclick="return confirm('are you sure you wish to delete this image?')"
+#    button:'delete', onclick="confirmExit = false", cls="btn btn-default"
+div:
+  a: "...back", href=self.url()

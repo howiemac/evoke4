@@ -16,7 +16,7 @@ div: cls="row"
             if item.stage:
               span: "verified"
             elif canedit:
-              a: "verify", href=item.url('verify_manually'), cls="btn btn-default"
+              a: "verify", href=item.url('verify_manually'), cls="btn btn-primary"
             if (not item.stage) and canedit:
               a: "remove", href=item.url('remove'), cls="btn btn-default"
           td:

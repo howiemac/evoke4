@@ -81,7 +81,6 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
    for tag in section.endtags.split():
     "</div><!--end of %s %s-->" % (tag,section.uid)
  # child page add / summaries  ###################################################################### 
- Page_child_add.evo
  Page_child_pages.evo
 #/content
 # footer (page info and prev/next item)  #################################################

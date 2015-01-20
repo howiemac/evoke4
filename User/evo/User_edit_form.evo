@@ -2,7 +2,7 @@ div: cls="row"
   div: cls="col-md-12"
     h1: "edit %s details" % (req.user.uid==self.uid and 'your' or 'user')
     h2: self.id
-    form: action=self.url("edit"), cls="form-horizontal", id="edit_form", role="form"
+    form: action=self.url("edit"), cls="form-horizontal", role="form"
       fieldset:
         legend:'details'
         div: cls="form-group" 

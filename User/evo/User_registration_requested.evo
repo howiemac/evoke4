@@ -3,4 +3,4 @@ div: cls="row"
     h1:"your registration has been requested",cls='login'
     p: "The site administrator has been asked to approve your registration, and will contact you in due course to confirm your registration."
     p:
-      a: "ok", href=self.abs_url(self.Config.guests and "/" or "../index.html"), cls="btn btn-default"
+      a: "ok", href=self.abs_url(self.Config.guests and "/" or "../index.html"), cls="btn btn-primary"

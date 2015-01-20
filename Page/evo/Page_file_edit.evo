@@ -1,25 +1,22 @@
 # include for Page_file_edit.evo, when editing a file : self must be a file
-div: 'file edit', cls='huge'
-form: action=self.url("edit_file")
+form: action=self.url("edit_file"), cls="form-horizontal", role="form"
 #, enctype="multipart/form-data" 
-  dl:
-    dt:
-      label:'caption', for_id='file_desc'
-    dd:
-      input: id='file_desc', name='name', value=self.name, size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-#    dt:
+  fieldset:
+    legend: "edit file: %s" % self.code 
+    div:cls="form-group"
+      label:'caption', for_id='file_desc', cls="col-md-2"
+      input: id='file_desc', name='name', cls="col-md-8", value=self.name, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+
+# O/S replace only makes sense if it retains the old url, but for now we don't want /data files being amended... 
 #      label:'replace with', for_id="upload_file",
-#    dd:
 #      input: id="upload_file",size='40px', type="file", name="filedata"
 #      input: type="hidden", name="filename", value=""
-    dt:
-      label:'rename file to', for_id='file_name'
-    dd:
-      input: id='file_name', name='code', value='', size='60%', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+# form.filename.value=form.filedata.value;"
+
+    div:cls="form-group"
+      label:'rename file to', for_id='file_name', cls="col-md-2"
+      input: id='file_name', name='code', cls="col-md-8", value='', onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+  #/fieldset
   button:'save', onclick="confirmExit = false",accesskey="S", cls="btn btn-primary"
-  # form.filename.value=form.filedata.value;"
+  a:'delete', role="button", href=self.url("remove_file"), cls="btn btn-default", onclick="return confirm('are you sure you wish to delete this file?')"
 #/form
-form: action=self.url("remove_file"), onclick="return confirm('are you sure you wish to delete this file?')"
-  button:'delete', onclick="confirmExit = false", cls="btn btn-default"
-br:
-br:

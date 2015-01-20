@@ -4,6 +4,7 @@ div: id='content'
   image=self.get(req.edit) if req.edit else None
   if image:
     image.Page_image_edit.evo
+    br:  
   form: action=self.url("add_image"), enctype="multipart/form-data" , id='uploadform', cls="form-horizontal", role="form"
     fieldset:
       legend: 'add an image'
@@ -15,6 +16,7 @@ div: id='content'
     if req.seq:
       input: type="hidden", name="seq", value=req.seq
   #/form
+  br:
   Page_image_list.evo
 div:
   a: "...back", href=self.url()

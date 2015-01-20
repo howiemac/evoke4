@@ -12,4 +12,4 @@ div: cls="row"
           label:'email address:', for_id="user_email", cls="col-md-2"
           div: cls="col-md-10"
             input: id="user_email", name="email", type="text", atts='value=req.email'
-        button: "remind me", type="submit", cls="btn btn-default"
+        button: "remind me", type="submit", cls="btn btn-primary"

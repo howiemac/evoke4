@@ -1,1 +1,4 @@
 *.pyc
+twistd.pid
+config_site.py
+

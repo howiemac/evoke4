@@ -12,4 +12,4 @@ div: cls="row"
        a: self.Config.mailto ,href="mailto:%s" % self.Config.mailto
        "for assistance."
      p:
-       a: "ok", href=self.abs_url(self.Config.guests and "/" or "../index.html"), cls="btn btn-default"
+       a: "ok", href=self.abs_url(self.Config.guests and "/" or "../index.html"), cls="btn btn-primary"
