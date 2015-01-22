@@ -58,7 +58,7 @@ class Page(Image,File):
   def permitted(self,user):
     """ does user have access rights to this page? 
     """
-    return (self.stage in ["posted","live"]) or (user.is_admin())
+    return (self.stage in ["posted","live"]) or (self.kind=="image") or (user.is_admin())
 
   def edit_permitted(self,user):
     """ does user have edit rights to this page?
@@ -993,12 +993,14 @@ class Page(Image,File):
     else: 
      lim=page(req,limit) if limit else ""
     _kinds=kinds or self.postkinds
-    _where='%s%s lineage like "%s%%"' % (where and (where+" and ") or "",self.uid==1 and "rating>=0 and" or "",self.lineage+str(self.uid)+'.') 
-    #print where 
-    items = self.list(isin={'stage':('posted','live'),'kind':_kinds},where=_where,orderby=order,limit=limit)
+    _where='%s%s lineage like "%s%%"' % ((where+" and ") if where else "","rating>=0 and" if self.uid==1 else "",self.lineage+str(self.uid)+'.') 
+    #print where
+#    items = self.list(isin={'stage':('posted','live'),'kind':_kinds},where=_where,orderby=order,limit=limit)
+    items = self.list(stage='posted',isin={'kind':_kinds},where=_where,orderby=order,limit=limit)
     return items 
 
   def latest(self, req):    
+    ""
     req.pages=self._latest(req)
     req.title="latest"
     req.page='latest' # for paging

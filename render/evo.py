@@ -224,7 +224,6 @@ class Evo(object):
          # allow for whitespace in let lines
          s = s.strip()
          e = e.strip()
-
          #error check
    	 f=s.find(' ')
 	 if f>-1:

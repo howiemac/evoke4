@@ -7,9 +7,9 @@ div: cls="row"
         div: cls="form-group" 
           label:'username:', for_id="user_id", cls="col-md-2"
           div: cls="col-md-10"
-            input: id="user_id", name="id", value=req.id
+            input: id="user_id", cls="form-control", name="id", value=req.id
         div: cls="form-group" 
           label:'email address:', for_id="user_email", cls="col-md-2"
           div: cls="col-md-10"
-            input: id="user_email", name="email", type="text", atts='value=req.email'
+            input: id="user_email", cls="form-control", name="email", type="text", atts='value=req.email'
         button: "remind me", type="submit", cls="btn btn-primary"

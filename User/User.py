@@ -464,7 +464,7 @@ Welcome to %s.
     "the welcome page, when no object/instance is specified in the URL"
     if req.return_to:
       return req.redirect(req.return_to)
-    return req.redirect(self.Page.get(self.Config.page_default or 1).url())
+    return req.redirect(self.Page.get(self.Config.default_page).url())
 # or use this if Page is not installed or in use: 
 #    return self.get(1).view(req)
 

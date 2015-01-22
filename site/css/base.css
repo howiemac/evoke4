@@ -151,7 +151,7 @@ font-weight:bold;
 #content {
 padding: 1em 0;
 }
-
+/*
 .page-actions {
 background-color: #DDD;
 padding: .2em;
@@ -161,7 +161,7 @@ margin:  .2em 0;
 #pageoptions .selected a , #pageoptions .selected {
 color:#333;
 }
-
+*/
 #navbar {
 padding: 1em;
 text-align:center;

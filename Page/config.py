@@ -15,9 +15,8 @@ thumb_size=120 # image thumbnail size (width)  - this is storage size, they may 
 
 # the following are overrides of config_base parameters
 permits={'master':['be'],'user':['edit'],'page':['create','edit','admin']} #basis of permit system
-#default_permits={} #default permits a new user gets
 default_permits={'page':['create','edit']}#default permits a new member gets
-
+default_page=1 # default page to land on when no object/instance is specified
 
 
 #the following data schema may be subclassed or overidden in an app's config.py

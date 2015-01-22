@@ -307,7 +307,7 @@ class MassProducedSQLDataObject(SQLDataObject):
 
   @classmethod
   @Permit('no way')
-  def list(cls, asObjects=True, sql='', sqlargs=(), like={}, isin={}, orderby='', where='' , limit='', pager=-1, pagelength=20, what='*',_debug=True,**criteria):
+  def list(cls, asObjects=True, sql='', sqlargs=(), like={}, isin={}, orderby='', where='' , limit='', pager=-1, pagelength=20, what='*',_debug=False,**criteria):
     """return list of objects (if obs) or data filtered by these criteria
        sql with asObjects=True requires 'select *' to give fully valid objects, so 'what' should not be used with asObjects=False  
    
@@ -410,11 +410,14 @@ class MassProducedSQLDataObject(SQLDataObject):
     # ready to go
     # optionally show our query.
     if _debug:
-      #print "LIST:", sql
-      #print "LIST:", sqlargs
+      print "LIST:", sql
+      print "LIST:", sqlargs
       pass
     # execute query
     data = execute(sql, sqlargs)
+
+#    if _debug:
+#      print "DATA COUNT:", len(data)
 
     # convert to objects if required
     if asObjects:

@@ -1,8 +1,8 @@
 user= (req.__user__ or req.get('cookies', {}).get('evokePersist', ''))
 # set focus
 script:"window.onload= function(){document.login.__%s__.focus()}" % (user and "pass"or "user",)
-# login form
 
+# login form
 div: cls="row"
   div: cls="col-md-12"
 
@@ -15,10 +15,10 @@ div: cls="row"
     form: cls="form-inline", action=self.abs_url("user/welcome"), id="login_form", name="login", role="form"
       div: cls="form-group"
         label: 'username:', for_id="user_login", cls="sr-only"
-        input: id="user_login", name="__user__", value=user, placeholder="User Name"
+        input: id="user_login", cls="form-control",name="__user__", value=user, placeholder="User Name"
       div: cls="form-group"
         label:'password:',for_id="user_password", cls="sr-only"
-        input:id="user_password", name="__pass__", type="password", placeholder="Password"
+        input:id="user_password", cls="form-control", name="__pass__", type="password", placeholder="Password"
       div: cls="checkbox"
         input:type="checkbox", value='1',name="evokePersist", checked=req.get('cookies', {}).get('evokePersist', '') and 'checked' or '', id="cb_remember"
         'remember my name'
@@ -26,6 +26,7 @@ div: cls="row"
       input: type="hidden", name="evokeLogin", value="1"
       if req.get('return_to'):
         input: type="hidden", name="return_to", value=req.get("return_to","")
+      # /form  
     p: id="reminder"
       a: 'forgotten my password', href=self.url("reminder")
     p:

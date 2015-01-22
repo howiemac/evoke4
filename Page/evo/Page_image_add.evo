@@ -10,7 +10,7 @@ div: id='content'
       legend: 'add an image'
       div: cls="form-group"
         div: cls="col-md-10"
-          input: type="file", name="filedata", accept="image/jpeg,image/png,image/gif", accesskey="B"
+          input: type="file" ,name="filedata", accept="image/jpeg,image/png,image/gif", accesskey="B"
       button:'upload', onclick="javascript:form.filename.value=form.filedata.value;", accesskey="U", cls="btn btn-primary"
     input: type="hidden", name="filename", value=""
     if req.seq:

@@ -20,9 +20,9 @@ div: id="content", cls="%s_content" % self.kind
                   option: opt, value=opt, selected=opt=='selected' if self.get_pref(name) else '',
             else:
               input: cls="form-control", id="prefs_%s" % name, name=name, value=self.get_pref(name) or '', size=defn[2] or ''
-    #/fieldset
-  button:'update', cls="btn btn-primary"
-#/form
+      #/fieldset
+      button:'update', cls="btn btn-primary"
+    #/form
 div:
  br:
  a: "...back", href=self.url()
