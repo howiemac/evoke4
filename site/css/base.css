@@ -162,19 +162,13 @@ margin:  .2em 0;
 color:#333;
 }
 */
-#navbar {
-padding: 1em;
-text-align:center;
-}
 
-#searchform {
-float:right;
-padding:0 0 0 1em;
-}
 /* for small phone screens, remove the float */
+/*
 @media handheld, only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
  #searchform {float:none; padding:0}
 }
+*/
 
 #next_item {
  float:right;

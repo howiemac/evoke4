@@ -8,10 +8,11 @@ div: id='content'
         span:item.status(full=True), cls='bright wee' 
       # tagline
       div:cls='tiny light' 
-        if self.Config.attribution and (item.kind in self.postkinds):
-          span:"%s by %s" % (item.kind,self.get(2).get_name())
-        else:
-          span:item.kind
+        if self.Config.attribution:
+          if (item.kind in self.postkinds):
+            span:"%s by %s" % (item.kind,self.get(2).get_name())
+          else:
+            span:item.kind
         if self.get_pref('show_time'):  
           span: item.when.nice(long=True)
         if (item.get_pob().kind=='category') and (item.stage=='posted'):

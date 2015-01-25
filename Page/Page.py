@@ -659,7 +659,32 @@ class Page(Image,File):
     url="%s%s" % (req.return_to,req.user.mode and "/edit" or "")
     return req.redirect(url)
   toggle_mode.permit="admin page"
-       
+
+############# navbar #################
+
+  def get_navbar_links(self):
+    """returns (name,href,title) for each navbar link
+       - assumes that navbar items are:
+         - the posted child pages of page 1
+         - an additions listing link
+       - can be overridden by apps, to give whatever is required
+    """
+    home=self.get(1)
+    links=[
+      (p.name,p.url(),p.name)
+      for p in home.list(parent=home.uid,kind='page',stage='posted',where="uid!=2",orderby=home.get_order())
+      ]
+    links.append(("latest",home.url("latest"), "what's new"))
+    return links
+
+  def navbar_links(self):
+    """ gets navbar links via cache
+    """
+    if not hasattr(self,"_navbarlinks"):
+      self._navbarlinks=self.get_navbar_links()
+    return self._navbarlinks
+    
+
 ############# options ################
 
   def add_option(self,req,label,method="",hint="",url=""):

@@ -1,2 +1,9 @@
-# navigation links - for override in app
-div:
+# navigation bar
+nav: cls="navbar navbar-default"
+  div:cls="container-fluid"
+    ul:cls="nav navbar-nav"
+      for name,href,title in self.navbar_links():
+        li:
+          a: name,href=href, title=title, target="_blank" if href.startswith("http") else "_self"
+    div: cls="navbar-form navbar-right"
+      Page_search_form.evo

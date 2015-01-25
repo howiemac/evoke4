@@ -22,5 +22,13 @@ div: id='contentfooter'
 #      span:"&laquo;",cls='wee'
       span:cls='glyphicon glyphicon-chevron-left wee'
       span:prev.name
-  # nav links
-  Page_navbar.evo
+  # footer navs ################################################
+  div: cls="row"
+    div: cls="text-center"
+      for name,href,title in self.navbar_links():
+        a: name,href=href, title=title, target="_blank" if href.startswith("http") else "_self"
+        "-"
+      a:"back to top",href="#top",
+  # extra footer ##############################################
+  div: cls="row"
+    Page_footer_extra.evo
