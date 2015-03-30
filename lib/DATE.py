@@ -159,7 +159,7 @@ class DATE(object):
     if years or months:
       dt=self.datetime
       d,m,y=(dt.day,dt.month+months,dt.year+years)
-      d=min(d,self.monthend[m-1]) # limit day to what is possible 
+      d=min(d,self.monthend[(m-1) % 12]) # limit day to what is possible 
       while m<0:
         m+=12
         years-=1
