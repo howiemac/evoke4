@@ -1,4 +1,5 @@
 *.pyc
 twistd.pid
 config_site.py
+config_multi.py
 

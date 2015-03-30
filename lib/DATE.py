@@ -148,15 +148,18 @@ class DATE(object):
       return self.datetime.strftime(style)
     return ''  
 
+  monthend=(31,28,31,30,31,30,31,31,30,31,30,31) # used by add() below - ignores leap years.....
+  
   def add(self,years=0,months=0,days=0,hours=0,minutes=0,seconds=0):
     """ date arithmetic for years, months, days, hours, minutes, seconds
     - Adds given periods on to self.
     - This is useful because python datetimes don't deal with adding months and years.
     """
-#    print "HERE"
+    # adjust years and months 
     if years or months:
       dt=self.datetime
       d,m,y=(dt.day,dt.month+months,dt.year+years)
+      d=min(d,self.monthend[m-1]) # limit day to what is possible 
       while m<0:
         m+=12
         years-=1
@@ -164,20 +167,8 @@ class DATE(object):
         m-=12
         years+=1    
       #adjust days using timedelta
-      try:
-        self.datetime=datetime(y,m,d)+timedelta(hours=dt.hour,minutes=dt.minute,seconds=dt.second)
-      except ValueError:
-        # Could it be the 29th February?
-        if years and m==2 and d==29:
-          if years>0:
-            m=3
-            d=1
-          elif years<0:
-            m=2
-            d=28
-          self.datetime=datetime(y,m,d)+timedelta(hours=dt.hour,minutes=dt.minute,seconds=dt.second)
-        else:
-          raise
+      self.datetime=datetime(y,m,d)+timedelta(hours=dt.hour,minutes=dt.minute,seconds=dt.second)
+    # adjust days, minutes and seconds
     if days or hours or minutes or seconds:   
       self.datetime=self.datetime+timedelta(days=days,hours=hours,minutes=minutes,seconds=seconds)
     return self
