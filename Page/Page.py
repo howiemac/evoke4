@@ -1291,6 +1291,7 @@ class Page(Image,File):
 
   def login(self,req):
     "shortcut to user login"
+    req.return_to=self.url()
     return req.user.login_form(req)      
   login.permit="guest"
 
