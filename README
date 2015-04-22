@@ -1,9 +1,11 @@
-this is the evoke base folder
+This is the "base" folder of EVOKE.
 
+EVOKE is a simple and powerful python web framework with pythonic "evo" templating.
 
 installation
 ==
 O/S: proper installation script to be written
+
 for now:
 - name the folder containing this code to "base"
 - use create_app script to create an app (say "yourapp"): 

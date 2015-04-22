@@ -19,3 +19,8 @@ LATER
     * flat files are all currently going through validation (not relevant when fielded by apache) (CAN I MAKE THIS SWITCHABLE VIA A CONFIG const?)
 
 - we need to be able to add and include types in apps, so that e.g. lib/TEXT() can be put in Page app (where it belongs)
+
+
+PROPOSALS
+==
+- rename "base" folder to "evoke" ?  (IHM) 
