@@ -11,17 +11,7 @@ from MySQLdb.connections import OperationalError
 from pool import Pool, Constructor
 from twisted.enterprise import adbapi
 from twisted.internet.defer import inlineCallbacks, returnValue
-
-
-class OurDictCursor(DictCursor):
-  ""
-  def execute(self, query, args=None):
-    try:
-      n = DictCursor.execute(self, query, args)
-    except OperationalError:
-      # try again for server gone away
-      n = DictCursor.execute(self, query, args)
-    return n
+from time import sleep
 
 
 class DB(object):
@@ -58,8 +48,14 @@ class DB(object):
   def execute(self, sql, args=None):
     "perform a query safely"
     dbc = self.conn_pool.get()
-    db = dbc.cursor(OurDictCursor)
-    db.execute(sql, args)
+    db = dbc.cursor(DictCursor)
+    try:
+      db.execute(sql, args)
+    except OperationalError:
+      dbc = self.conn_pool.get()
+      db = dbc.cursor(DictCursor)
+      db.execute(sql, args)
+
     if 'INSERT' in sql.upper():
       # return the insert id
       res = dbc.insert_id()
