@@ -49,6 +49,24 @@ class Page(Image,File):
    'page':['page']
    }
 
+  @classmethod
+  def get(self, uid, data={}):
+    "override get"
+    ob = self.__get__(uid, data)
+    # look for override class for this kind
+    override_classname = 'Page_%s' % ob.kind.replace(' ', '_')
+    if hasattr(ob, override_classname):
+      override_class = getattr(self,override_classname)
+      bases = tuple([override_class, self] + list(ob.__class__.__bases__))
+      # TODO avoid duplicate base names with more elegance
+      try:
+        ob.__class__ = type(self.__name__, bases, {})
+      except TypeError:
+        pass
+      ob.__override_classname__ = override_classname
+    ob.get = self.__get__
+    return ob
+
 
 ########## access restrictions ############################
 

@@ -196,12 +196,16 @@ class MassProducedSQLDataObject(SQLDataObject):
     ob._v_changed={}
 
     # call __init__ 
-    if hasattr(cls.__bases__[1], '__init__'):
-      cls.__bases__[1].__init__(ob)
+    if hasattr(cls.__bases__[0], '__init__'):
+      cls.__bases__[0].__init__(ob)
 
     return ob
   __getitem__ = classmethod(get)  #### works for instance, but not class :s
   get = classmethod(get)
+  # allow for get overrides  
+  __get__ = get  
+
+
 
 
   @classmethod
@@ -222,7 +226,7 @@ class MassProducedSQLDataObject(SQLDataObject):
   def delete(self,uid=0):
     "remove self (or the database record with given uid: uid is for retro compat.)"
     sql = 'delete from %s where uid=%%s' % (self.table,)
-    execute(sql, uid or self.uid)
+    execute(sql, (uid or self.uid,))
 
   def clone(self):
     "create a clone of self, flush it,  and return it"

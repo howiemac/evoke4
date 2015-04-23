@@ -155,16 +155,14 @@ All rights reserved.
     # set up class bases
     bases = []
 #    print ">>>>>>>>>>>>>>>>>>>",id,klass,module ,schemaClass._v_columns
+    bases.append(getattr(__import__(module,globals(),locals(),klass),klass))  #yuk... but it works...for base.module.klass too
     if schemaClass._v_columns or schemaClass.table:  # DataObject
       bases.append(makeDataClass(schemaClass))
-#    # Flow object
-#      if flow:
-#      bases.append(makeFlowClass(flow))
-#    bases.append(getattr(__import__(module),klass)) #doesn;t work for base.module.klass - returns the module not the class
-    bases.append(getattr(__import__(module,globals(),locals(),klass),klass))  #yuk... but it works...for base.module.klass too
     bases.extend([Url,Baseobject]) #do these last so we can override their attributes and methods in the module class
     #make the object
+    #print bases
     cls =self.classes[id] = type(str(id), tuple(bases), {})
+
 
     # trigger __class_init__ if it exists
     if hasattr(cls, '__class_init__'):
