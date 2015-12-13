@@ -742,7 +742,7 @@ class Page(Image,File):
       if drafts:
         self.add_option(req,'my drafts (%s)' % drafts,'drafts')
 
-    # move, copy, export, import
+    # move, copy, export, import moced here for convenience of access - BUT NOTE: SHOULD BE POSTs not GETs (IHM 13/12/2015)
     move=self.get_move(req)
     if move:
       self.add_option(req,'cancel move','cancel_move',hint='cancel page move')
