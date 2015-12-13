@@ -175,7 +175,7 @@ class MassProducedSQLDataObject(SQLDataObject):
   def exists(cls, uid):
     "return true if a record with this uid exists"
     sql = 'select * from %s where uid=%%s' % (cls.table,)
-    _data = execute(sql, uid)
+    _data = execute(sql, (uid,))
     return len(_data) > 0
 
   def get(cls, uid, data={}):

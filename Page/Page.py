@@ -778,7 +778,7 @@ class Page(Image,File):
         self.add_act(req,'post','post',hint='make this %s public' % self.kind,hilite=True)
       self.add_delete(req)
       
-    return req.actions # TEMPRARY DISABLING OF MOVE/COPY/EXPORT/IMPORT
+#    return req.actions # TEMPRARY DISABLING OF MOVE/COPY/EXPORT/IMPORT
 
     # move, copy, export, import
     move=self.get_move(req)
@@ -791,9 +791,10 @@ class Page(Image,File):
     else:
       if req.user.can('admin page'): 
         self.add_act(req,'move/copy','move',hint='mark for moving or copying')
-      if self.stage!='draft':
-        self.add_act(req,'export','export')
-        self.add_act(req,'import','import_eve')
+ # temrarily disable Export/Imprt until it can be fully tested... (IHM Dec 2015)
+ #     if self.stage!='draft':
+ #       self.add_act(req,'export','export')
+ #       self.add_act(req,'import','import_eve')
     # and return
     return req.actions
 
@@ -1300,9 +1301,10 @@ class Page(Image,File):
   def get_move(cls,req):  
     "gets move uid from session cache (req.cache.page_move)"
     move=getattr(req.cache,'page_move',None)
+    print ">>>>>>>>>> move=",move
     if move:
-      if cls.Page.exists(move):
-        return cls.Page.get(move)
+      if cls.exists(move):
+        return cls.get(move)
     return None  
 
 ##### shortcuts
