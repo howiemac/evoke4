@@ -1,3 +1,11 @@
+BUG
+==
+- data.list() cannot cope with a "where" parameter for any word(s) starting with s - eg where="%%star%%"
+  eg see base.Page.page.py line 1152: heads.extend(self.list(where='name like "%%%s%%"' % term,orderby='uid desc'))
+  because of base.data.py line  402:  whereclauses = (' and '.join(sqlparts)).replace("%","%%").replace('%%s','%s') # double the % wildcard (but not any %s)
+  i.e. The substitution of "%%s" is a bodge too far! REVERT TO PRE - SQL INJECTION PROTECTION data.py (ie as per grace 8)
+CURRENTLY BODGED BY FORCING UPPERCASE FOR SEARCH TERM IN THIS PARTICULAR EXAMPLE.....
+
 URGENT
 ==
 - exclude drafts from listings (optionally via preference?)

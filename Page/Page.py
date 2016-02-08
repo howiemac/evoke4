@@ -1138,7 +1138,7 @@ class Page(Image,File):
     resleft=0
     resfound=0
     heads=[]
-    term=req.searchfor.replace('"','').replace("'",'').replace('*','%')
+    term=req.searchfor.upper().replace('"','').replace("'",'').replace('*','%')
     # is it a uid?
     if safeint(term):
         try: 
