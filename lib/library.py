@@ -291,8 +291,11 @@ def idf(t):
 
 ################### http formattingr ###################
 
+#def url_safe(text):
+#  return urllib.quote(text)    
+
 def url_safe(text):
-  return urllib.quote(text)    
+  return urllib.quote_plus(text,safe="/")    
 
 
 ################### CSV formattingr ###################
