@@ -264,7 +264,7 @@ def email(FROM,TO,subject="", text="",html="",SMTP='127.0.0.1',LOGIN=[], sender=
         root['To']=t
         smtp.sendmail(FROM, t, root.as_string())
 #        print "SENT: FROM=",FROM,' TO=',t,' ROOT=', root.as_string()
-	del root['To'] # need to del this, as the message class __setitem__ appends rather than replaces
+        del root['To'] # need to del this, as the message class __setitem__ appends rather than replaces
       except: 
         print "SENDMAIL REFUSAL: FROM=",FROM,' TO=',t,' ROOT=', root.as_string()
     smtp.quit()
@@ -278,7 +278,7 @@ def email(FROM,TO,subject="", text="",html="",SMTP='127.0.0.1',LOGIN=[], sender=
 
 def page(req,pagesize=50):
     "returns limit parameter for self.list(): requires req.pagenext, and provides req.pagenext and req.pagesize"
-    offset=safeint(req.pagenext)                                                                                          
+    offset=safeint(req.pagenext)
     req.pagenext=offset+pagesize #next page
     req.pagesize=pagesize #for use in form, to determine whether there is more to show
     return '%s,%s' % (offset,pagesize)

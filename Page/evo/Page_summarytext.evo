@@ -1,11 +1,5 @@
 #if self.text: 
 div:cls='summarytext'
-  # images as thumbnails  # 
-  for image in self.get_images():
-    a:title=image.name,  cls="image_%s image_thumb" % image.get_pos(), style=image.get_anchor_width_style('thumb')
-     img:src=image.thumb_url(), alt=image.code, style=image.get_image_width_style('thumb')
-     if image.name:
-      span:image.name, cls='wee light'
   # text summary #
   Page_view_text_summary.evo
   if (self.text.has_more or self.has_children()):

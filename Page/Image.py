@@ -312,8 +312,11 @@ class Image(object):
   def get_images(self):
     "sets self.images, i.e. child images (up to a maximum of 50 images), and returns it"
     if not hasattr(self,'images'):
-      self.images= self.list(parent=self.uid,kind="image",orderby='seq,uid', limit="50")
-    return self.images  
+      if self.kind=="image":
+        self.images=[self]
+      else:
+        self.images= self.list(parent=self.uid,kind="image",orderby='seq,uid', limit="50")
+    return self.images
 
   def get_image(self):
     "return first image only, from get_images()"

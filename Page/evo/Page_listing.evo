@@ -2,6 +2,8 @@ Page_listing_header.evo
 div: id='content'
   for item in req.pages:
     div:cls="summary"
+      # image
+      item.Page_summaryimage.evo
       # title
       a: href=item.url('context')
         span:item.get_name(), cls='big' 

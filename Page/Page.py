@@ -1056,8 +1056,8 @@ class Page(Image,File):
     _kinds=kinds or self.postkinds
     _where='%s%s lineage like "%s%%"' % ((where+" and ") if where else "","rating>=0 and" if self.uid==1 else "",self.lineage+str(self.uid)+'.') 
     #print where
-#    items = self.list(isin={'stage':('posted','live'),'kind':_kinds},where=_where,orderby=order,limit=limit)
-    items = self.list(stage='posted',isin={'kind':_kinds},where=_where,orderby=order,limit=limit)
+#    items = self.list(isin={'stage':('posted','live'),'kind':_kinds},where=_where,orderby=order,limit=lim)
+    items = self.list(stage='posted',isin={'kind':_kinds},where=_where,orderby=order,limit=lim)
     return items 
 
   def latest(self, req):    
