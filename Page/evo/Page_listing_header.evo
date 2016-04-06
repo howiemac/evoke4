@@ -1,9 +1,8 @@
 div: id='contentheader'
  Page_header_start.evo
- if req.page=='latest':
  div:id='pagetitle'
-  h1:req.title
-  span:req.prep or 'in',cls='light'
-  a:self.get_name(),href=self.url()
+   h1:req.title
+   span:req.prep or 'in',cls='light'
+   a:self.get_name(),href=self.url()
  div:id='pageinfo'
  Page_header_end.evo

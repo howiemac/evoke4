@@ -4,6 +4,9 @@ for item in req.pages:
   a:name=item.uid
   div: cls= "summary articles row"
     div: cls="col-md-12"
+      # image
+      if req.page=='view':
+        item.Page_summaryimage.evo
       # title  #
       a:href=item.url()
         span:item.get_name(), cls="big  %s" % (item.rating>=0 and 'enabled' or 'disabled',)
