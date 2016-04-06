@@ -297,7 +297,7 @@ class Image(object):
           image.update(req)
           image.set_lineage()
   	image.text= req.filename.replace('\\','/').split('/')[-1] #store source filename for reference (fix MS brain-dead slashes, and strip off path)
-        image.code="%s.%s" % (image.uid,extension)
+        image.code="%s.%s" % (image.uid,extension.lower())
         image.when=DATE()
         image.flush() #store the image page
         if not replace:
@@ -310,9 +310,9 @@ class Image(object):
     return None
 
   def get_images(self):
-    "sets self.images, i.e. child images, and returns it"
+    "sets self.images, i.e. child images (up to a maximum of 50 images), and returns it"
     if not hasattr(self,'images'):
-      self.images= self.list(parent=self.uid,kind="image",orderby='seq,uid')
+      self.images= self.list(parent=self.uid,kind="image",orderby='seq,uid', limit="50")
     return self.images  
 
   def get_image(self):
@@ -323,7 +323,7 @@ class Image(object):
   def delete_image(self,replace=False):
     "delete the image file and thumbnail, and (unless replace) the image page"
     self.delete_file(replace)
-    try: # this is not important enough for failure to raise an error
+    try: # this may not exist, so don't raise an error
       os.remove(self.thumb_loc()) #delete the thumbnail
     except:
       pass  
