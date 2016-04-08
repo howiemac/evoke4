@@ -1179,7 +1179,8 @@ class Page(Image,File):
     # and display
     if len(heads)==1: #show result
         req.message='1 result found for "%s"' % term
-        return req.redirect(heads[0].url('view?searchfor=%s&message=%s' % (url_safe(term),url_safe(req.message))))
+#        return req.redirect(heads[0].url('view?searchfor=%s&message=%s' % (url_safe(term),url_safe(req.message))))
+        return req.redirect(heads[0].url('view?searchfor=%s'))
 #        return heads[0].view(req)
     if heads:
       req.message='%s results found for "%s" %s' % (resfound,term,resfound>reslimit and ",first %s shown" % reslimit or "" )
