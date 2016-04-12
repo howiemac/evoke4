@@ -202,7 +202,7 @@ class User:
        available as req.request.avatarId
     """
     user= cls.Session.fetch_user(req)
-#    print "VALIDATED USER:",user
+    print "VALIDATED USER:",user.id
     # play around with cookies
     if user.uid>1 and req.get("evokeLogin"):
       #found a valid user in the request, so set the cookies 
@@ -212,7 +212,7 @@ class User:
 #        print "REMEMBER ME" 
         req.set_cookie('evokePersist',user.id,expires=forever)
       elif req.cookies.get('evokePersist')==user.id: #user no longer wants name remembered
-        req.clear_cookie('evokePersist')	 
+        req.clear_cookie('evokePersist')	
     return user
 
   def login_failure(self,req):
@@ -230,7 +230,7 @@ class User:
 
   def login(self,req):
     ""
-    return self.login_form(req)      
+    return self.login_form(req)
   login.permit="guest"
 
   def logout(self, req):

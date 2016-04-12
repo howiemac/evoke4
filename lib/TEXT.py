@@ -403,8 +403,12 @@ class TEXT(STR):
     else:
       return ""  
 
-  def summarised(self,req,chars=250,lines=3):
-    return self.formatted(req,chars,lines)
+  def summarised(self,req,chars=250,lines=3,formatted=True):
+    " return summary of formatted text "
+    if formatted:
+      return self.formatted(req,chars,lines)
+    # not formatted - ignore "lines"
+    return self[:chars]
 
 def test():
   t=TEXT('line one\nline two\nthird line\n\nhttp://deepserver.net')
