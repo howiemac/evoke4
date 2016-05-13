@@ -85,15 +85,12 @@ class TEXT(STR):
   blockquote_rule=re.compile(r'(&lt;\n)(.*?)(\n&gt;)|(&lt;\n)(.*?)($)',re.DOTALL) #note: this doesn't work with re.MULTILINE
   quote_rule=re.compile(r'(&lt;)(.*?)(&gt;)|(^&gt;)(.*?)($)',re.DOTALL+re.MULTILINE)#note:  this needs re.MULTILINE
 
-#  style_rule=re.compile(r'(^| )([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* $][\w\-\'\~\^\+\%\*]*)',re.MULTILINE)
-#  style_rule=re.compile(r'(^| )([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][\w\-\'\~\^\+\%\*]*)',re.MULTILINE)
 #  style_rule=re.compile(r'(^| |\()([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][^ \n]*)',re.MULTILINE)
-  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE)
+#  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE) # joined styles
+  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n)][^ \n)]*)',re.MULTILINE) # styles joined by underlines
 
-#  linestyle_rule=re.compile(r'(^)([\~\^\_\+\%\*\)]+ )(.*)',re.MULTILINE)
-#  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*)(\n| [\~\^\_\+\%\*][\n ])',re.MULTILINE) 
 #  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*?)(\n| [\~\^\_\+\%\*]+[\n ])',re.MULTILINE) 
-  linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) 
+  linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) # styles with closing tags
 
   styles={'~':'<i>%s</i>','^':'<b>%s</b>','_':'<u>%s</u>','+':'<big>%s</big>','%':'<small>%s</small>','*':'<strong>%s</strong>',')':'<center>%s</center>'} 
   headerstyles={'==':'<h3>%s</h3>','--':'<h4>%s</h4>','++':'<h5>%s</h5>','__':'<h6>%s</h6>'} 
@@ -101,25 +98,25 @@ class TEXT(STR):
 #  list_rule=re.compile(r'(^[ \t]*)([-#])(.*)')
   list_rule=re.compile(r'(^ *)([-#])(.*)')
 
-  def cleaned(self):
-    "tidy up verbose styles"
-    
-    def subclean(match):
-      ""
-      g=match.groups()
-      text=g[2].replace('_',' ')
-      ops=g[1].strip()
-      ope=ops[::-1] # reversed
-      for op in ops:
-        text=text.replace(op,' ')
-      if len(text.split())>1:  
-        return "%s%s %s %s " % (g[0],ops,text,ope)
-      else: # make no change
-        return g[0]+g[1]+g[2]
- 
-    if self.lstrip().startswith(":HTML"):
-      return self
-    return TEXT(self.style_rule.sub(subclean,self))
+#  def cleaned(self):
+#    "tidy up verbose styles DEPRECATED"
+#    
+#    def subclean(match):
+#      ""
+#      g=match.groups()
+#      text=g[2].replace('_',' ')
+#      ops=g[1].strip()
+#      ope=ops[::-1] # reversed
+#      for op in ops:
+#        text=text.replace(op,' ')
+#      if len(text.split())>1:  
+#        return "%s%s %s %s " % (g[0],ops,text,ope)
+#      else: # make no change
+#        return g[0]+g[1]+g[2]
+# 
+#    if self.lstrip().startswith(":HTML"):
+#      return self
+#    return TEXT(self.style_rule.sub(subclean,self))
 
 
   def sectioned(self):

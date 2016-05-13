@@ -382,7 +382,7 @@ class Page(Image,File):
 
   def save_text(self,req):
     ""
-    req.text=TEXT(req.text).cleaned()
+#    req.text=TEXT(req.text).cleaned() # removed by IHM 12/5/2016 to re-allow use of underlines to extend a style
     self.update(req)
     self.flush_page(req)
     self.clear_form(req)
