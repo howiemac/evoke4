@@ -84,12 +84,17 @@ class TEXT(STR):
   pre_token=re.compile(r'{}')
   blockquote_rule=re.compile(r'(&lt;\n)(.*?)(\n&gt;)|(&lt;\n)(.*?)($)',re.DOTALL) #note: this doesn't work with re.MULTILINE
   quote_rule=re.compile(r'(&lt;)(.*?)(&gt;)|(^&gt;)(.*?)($)',re.DOTALL+re.MULTILINE)#note:  this needs re.MULTILINE
+
 #  style_rule=re.compile(r'(^| )([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* $][\w\-\'\~\^\+\%\*]*)',re.MULTILINE)
 #  style_rule=re.compile(r'(^| )([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][\w\-\'\~\^\+\%\*]*)',re.MULTILINE)
-  style_rule=re.compile(r'(^| |\()([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][^ \n]*)',re.MULTILINE)
+#  style_rule=re.compile(r'(^| |\()([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][^ \n]*)',re.MULTILINE)
+  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE)
+
 #  linestyle_rule=re.compile(r'(^)([\~\^\_\+\%\*\)]+ )(.*)',re.MULTILINE)
 #  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*)(\n| [\~\^\_\+\%\*][\n ])',re.MULTILINE) 
-  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*?)(\n| [\~\^\_\+\%\*]+[\n ])',re.MULTILINE) 
+#  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*?)(\n| [\~\^\_\+\%\*]+[\n ])',re.MULTILINE) 
+  linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) 
+
   styles={'~':'<i>%s</i>','^':'<b>%s</b>','_':'<u>%s</u>','+':'<big>%s</big>','%':'<small>%s</small>','*':'<strong>%s</strong>',')':'<center>%s</center>'} 
   headerstyles={'==':'<h3>%s</h3>','--':'<h4>%s</h4>','++':'<h5>%s</h5>','__':'<h6>%s</h6>'} 
   section_rule=re.compile(r'(.*\n)(\*\*+)( *\n)',re.MULTILINE)

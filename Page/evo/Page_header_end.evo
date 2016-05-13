@@ -19,5 +19,5 @@ div:id='contentheader_bottom'
       if self.get_pref('show_time'): 
         span: cls="wee"
         "&nbsp;"
-        span:self.when.nice(long=False)
+        span:self.when.nice(long=True)
         "&nbsp;"

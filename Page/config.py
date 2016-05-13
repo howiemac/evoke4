@@ -32,6 +32,7 @@ class Page(Schema):
   text=TEXT,KEY
   seq=INT,KEY
   rating=INT
+  score=INT
   prefs=TEXT
   insert=[
     dict(uid=1,parent=1,name='welcome',kind='root',lineage="."),
