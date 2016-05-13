@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """ EVOKE Page class - allowing several "kinds" of pages, including default kinds:
  - page         : a generic page, which can have child pages (of any kind)
- - section      : a part of a page, allowing mutli-section pages
  - file         : a reference to a flat file, available for download its parent page
  - image        : a reference to a an image flat file, available for display on its parent page
 
@@ -40,7 +39,7 @@ class Page(Image,File):
 
   #kind constants
   postkinds=['page']
-  contextkinds=['section','image','file'] #these are typically viewed in the context of their parents
+  contextkinds=['image','file'] #these are typically viewed in the context of their parents
   imageaddkinds=['page'] # kinds which can have images 
   fileaddkinds=imageaddkinds #kinds which can have child files
   validchildkinds={
@@ -104,13 +103,6 @@ class Page(Image,File):
       self.pob=self.get(self.parent)
     return self.pob  
 
-  def get_section_holder(self):
-    "for sections, returns the most immediate non-section ancestor, otherwise returns self"
-    cob=self
-    while cob.kind=='section':
-      cob=cob.get_pob()
-    return cob
-      
   def get_container(self,immediate=False):
     "returns self, if immediate==True and self is a container, or else the containing ancestor, if there is one"
 
@@ -167,7 +159,7 @@ class Page(Image,File):
 
   @classmethod
   def get_parents(self):
-    "returns all parent objects (i.e. parents of further pages-  not of images, files, or sections)"
+    "returns all parent objects (i.e. parents of further pages-  not of images or files)"
     if not hasattr(self,"_parents"):
       puids=self.list_int('parent',distinct=True,kind='page',orderby="uid")
       if puids:
@@ -311,23 +303,11 @@ class Page(Image,File):
 # DO WE NEED THIS ?????      
       req.text=req.code=req.kind=req.name=''
 
-  def get_section_page(self):
-    "gets immediate parent page for sections"
-    page=self.kind=='section' and self.get_pob().get_section_page() or self
-    return page  
-
-  def sections_count(self):
-    ""
-    return self.count(parent=self.uid,kind='section')
-
 ## page creation / maintenance  ###################################
 
   def set_seq(self):
-    "sequence is generally based on 'when'"
-    if self.kind=='section':
-      self.seq = self.uid
-    else:
-      self.seq=self.when.count()
+    "default sequence is generally based on 'when'"
+    self.seq=self.when.count()
 
   def stamp(self):
     "date stamp (ie set 'when'), and set 'seq' - also sets thread latest-reply link (in 'seq') - DOESNT FLUSH SELF"
@@ -335,14 +315,14 @@ class Page(Image,File):
     self.set_seq()
 
   def expand_text(self,req):
-    "expands ** into sections"
-    sections=self.text.sectioned()
-    if sections>1:
-      for s in reversed(sections[1:]):
+    "expands ** into child pages"
+    pages=self.text.sectioned()
+    if pages>1:
+      for s in reversed(pages[1:]):
         n,t=s.split('\n',1)
-	self.create_section(name=n,text=t)
-    return sections[0]	
-      
+        self.create_child_page(name=n,text=t)
+    return pages[0]
+
   def flush_page(self,req):
     ""
     self.text=self.text.replace("\r","")#remove pesky carriage returns!
@@ -353,7 +333,7 @@ class Page(Image,File):
 
 
   def create_page(self,req):
-    "generic create for most page kinds (not sections, images, files) "
+    "generic create for most page kinds (not images or files) "
     req.setdefault('kind','page')
 #    self.validate_name(self,req)
     if req.error: 
@@ -372,7 +352,7 @@ class Page(Image,File):
   create_page.permit="no way"
 
   def add_page(self,req):
-    "generic add for most page kinds (not sections, images, files) "
+    "generic add for most page kinds (not images or files) "
     page=self.create_page(req)
     if not page:
       return self.view(req)
@@ -386,27 +366,15 @@ class Page(Image,File):
     self.update(req)
     self.flush_page(req)
     self.clear_form(req)
-    page=self.get_section_holder()
     if "post" in req:
-      return page.post(req)  
+      return self.post(req)  
     if not (req.error or req.message):
       req.message="text saved at %s" % DATE().time(sec=True,date=False)
 #    return self.redirect(req,page.stage=='draft' and 'edit' or 'view',self.uid)
-    return self.redirect(req,page.stage=='draft' and 'edit' or 'view') # anchor removed...
+    return req.redirect(self.url(self.stage=='draft' and 'edit' or 'view')) # anchor removed
 
   ###################### view (and edit) page ##################################
 
-  def set_page_data(self,req):
-    "sets properties for pages, sections, and other data required by template - see view_form()"
-    req.pages= self.get_child_pages(req)
-    #sections
-    next=None
-    for s in reversed(self.get_sections(req)): 
-#       self.blank=self.blank or not (s.text or s.name or s.images or s.files)#is there a blank section?
-       s.next=next
-       next=s
-    #contents
-    req.contents=[s for s in self.sections[1:] if (s.level<3) and (s.number or s.name)]
 
   def get_order(self,pref=''):
     ""
@@ -451,44 +419,6 @@ class Page(Image,File):
       req.page='view' # for paging
     return items
 
-  def get_sections(self,req):
-    "recursive fetch of sections branch - also gets  various stats"
-    #O/S  dont need all the "display-related data" that was there for area expansion - should be stripped down
-    #O/S  do we really want CELLS at all??????????????????????????
-    
-    def get_tree(pob,level): #recursive fetch
-      children=pob.get_children_by_kind('section')
-      prevsib=None
-      n=1
-      for s in children:
-       s.cell=(pob is not self) and "%s%s" % (len(children),n) or "11"
-       s.tags= s.cell[1]=='1' and 'row cell' or 'cell'
-       s.endtags= s.cell[1]==s.cell[0] and 'cell row' or 'cell'
-       s.level=level 
-       s.prevsib=prevsib
-       if prevsib:
-         prevsib.nextsib=s
-       s.nextsib=None             
-       s.pob=pob
-       s.number = pob.number and ("%s.%s" % (pob.number,s.seq)) or ""
-       self.sections.append(s)
-       s.cellcount=get_tree(s,level+1)
-       prevsib=s
-       n+=1
-      return len(children)
-
-#    self.blank=False 
-    self.sections=[self] 
-    self.prevsib=None
-    self.number=""
-    self.level=0
-    self.cell='11'
-    self.cellcount=0
-    self.tags='row cell'
-    self.endtags='cell row'
-    get_tree(self,1)
-    return self.sections
-
   def get_branch(self,isin={},expand=False):
     "recursive fetch of entire branch (includes self) - can be filtered by 'isin' clause - can expand images, files etc to include their file data"
     def get_tree(pob):
@@ -502,28 +432,12 @@ class Page(Image,File):
     get_tree(self)
     return self.branch
 
-  def get_add_section_pobs(self):
-    "cruddy fix to make up for lack of a recursive templating system.... see Page_view_form.xml"
-    if self.kind!='section' or (self.level==0): #or (not self.next)
-      return [self]
-    level=self.level
-    nextlevel=self.next and self.next.level or 1
-    pob=self
-    pobs=[]
-    while level>=nextlevel:
-      if pob.level<2: #skip cells, which will have level==2
-        pobs.append(pob)
-      level-=1
-      pob=pob.pob
-    return pobs       
-
-  def create_section(self,sub=False,name='',text=''):  
-    "creates a new page of kind=section, and returns it"
+  def create_child_page(self,name='',text=''):  
+    "creates a new child page, and returns it"
     ob=self.new()
-    ob.parent=(self.kind!='section' or sub) and self.uid or self.parent
-    ob.kind='section'
-    ob.seq=sub and 999999999 or (self.kind=='section' and self.seq or 0)#ready for renumber_child_sections 
-#    ob.stage='draft'
+    ob.parent=self.uid
+    ob.kind='page'
+    ob.stage=self.stage
     ob.when=DATE()
     ob.name=name
     ob.text=text
@@ -532,88 +446,23 @@ class Page(Image,File):
     ob.renumber_siblings_by_kind()
     return ob    
 
-  def add_section(self,req,sub=False):  
-    "add new section"
-    ob=self.create_section(sub)
-    return req.redirect(ob.url('edit_section#me'))#prevent browser refresh from adding another section
-#    self.clear_form(req)
-#    return ob.get(ob.uid).edit_section(req) #refetch to get new seq and code
-
-  def add_subsection(self,req):
-    ""
-    return self.add_section(req,sub=True)
-#  add_cell=add_subsection
-
-  def add_cell(self,req):
-    "add cell - when the first cell is added, the container contents is swapped with a new empty cell, thus giving two cells in an empty containing section"
-    if not self.get_children_by_kind('section'): # create a child cell from the section contents 
-      ob=self.create_section(sub=True)
-      # swap the container with the new cell, so the cell gets the contents
-      x=ob.seq
-      ob.parent=self.parent 
-      ob.seq=self.seq
-      ob.lineage=self.lineage
-      ob.flush()
-      self.parent=ob.uid
-      self.seq=x
-      self.lineage= "%s%s." % (self.lineage,self.parent)
-      self.flush()
-      self=ob
-    #add the new cell
-    return self.add_subsection(req)
-
-  def delete_section(self,req):
-    "delete images, and hand child sections to parent"
-    if self.kind=='section': #safety first.. 
-      self.delete_images()
-      self.delete_files()
-      self.delete()
-      for s in self.get_sections(req): #hand child sections to the parent.. 
-        s.parent=self.parent #don't leave them as orphans!
-        s.flush()
-      self.renumber_siblings_by_kind()
-      #check for last cell, and merge such with parent section 
-      pob=self.get_pob()
-      sibs=self.get_siblings_by_kind()
-      if (pob.kind=='section') and (len(sibs)==1): #merge with parent
-        sib=sibs[0]
-        sib.parent=pob.parent
-        sib.seq=pob.seq
-        sib.lineage=pob.lineage
-        sib.flush()
-        pob.delete()
-        pob=sib # for the redirect below...
-      req.message='section deleted'
-      return pob.redirect(req,'edit') # redirect to avoid subsequent view error
-    return self.edit(req)
-
   @html
   def view_form(self,req):
     ""
-    self.set_page_data(req)
+    req.pages= self.get_child_pages(req) # for Page_view_form.evo
     req.pageuid=self.uid  # for use in templates to test whether a given instance is the page instance 
     req.page="view"
     if not req.return_to:
       req.return_to=self.url() # allows us to return to this page, if required in template code
 
-  
   def view(self,req):
     "page view"
-    # redirect special page classes 
-#    if self.kind=='image':
-#      return self.get(self.uid).redirect(req)
-#    elif self.kind=='file':
-#      return self.get(self.uid).redirect(req)
-    # if this is a section, then show the page
-    if self.kind=='section':
-      req.view=self.uid
-      self=self.get_section_page()
     return self.view_form(req)
 
   @html
   def edit_form(self,req):
     ""
-    self.set_page_data(req) # also sets req.page
+    req.pages= self.get_child_pages(req) # for template
     req.pageid='page_edit'
     req.page="edit"
     req.edit=self.uid
@@ -629,29 +478,14 @@ class Page(Image,File):
       self.get_pob().redirect(req,"add_image?edit=%s" % self.uid)  
     elif self.kind=='file':
       self.get_pob().redirect(req,"add_file?edit=%s" % self.uid)
-    # if this is a section, then show the page
-    if self.kind=='section':
-      self=self.get_section_page()
     return self.edit_form(req)
   edit.permit='edit page' 
 
     
-  def edit_section(self,req):  
-    "open section for editing"
-    req.edit=self.uid
-    return self.edit(req)
-  edit_section.permit='edit page'
-
   def context(self,req):
     "show in the context of the parent"
-#    if self.stage=='draft': #for drafts, don't show in context
-#      if self.kind=='section':
-#        return self.redirect(req,'preview',self.uid) #anchor at section
-#      return self.redirect(req,'preview')
     if self.kind in self.contextkinds: #show in context
       return self.get_pob().redirect(req,'view',self.uid) 
-    elif self.kind=='section':
-      return self.redirect(req,'view',self.uid) #anchor at section
     return self.redirect(req,'view')
 
   def swap(self,req):
@@ -725,7 +559,7 @@ class Page(Image,File):
     # edit etc.
     if self.editable(req):
       uid=req.edit or req.view or self.uid
-      self.add_option(req,'edit','edit',url=self.kind=="section" and ('%s/edit#me' % uid) or "",hint='edit this page')
+      self.add_option(req,'edit','edit',hint='edit this page')
     # images
     if self.kind in self.imageaddkinds:
       self.add_option(req,"images","add_image")
@@ -866,7 +700,7 @@ class Page(Image,File):
   kill.permit="create page"  #creator can kill a page, but not if it has been been posted (as she can't withdraw it without admin permit) 
 
   def delete_branch(self):
-    "branch deletion - self and ALL child sections and images and replies and subpages (the whole branch!) are deleted"
+    "branch deletion - self and ALL child pages of any kind (the whole branch!) are deleted"
     deletes=[]
     for p in self.get_branch():
       deletes.append(p.uid)

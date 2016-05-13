@@ -60,7 +60,9 @@ class Url:
     return self.Config.urlhost+url
  
   def redirect(self,req,method='view',anchor=''):
-    "perform a redirect, retaining anchor and messages etc"
+    """perform a redirect, retaining anchor and messages etc
+    DEPRECATED - use req.redirect()
+    """
     return req.redirect(self.url(method),anchor=anchor)
  
 if __name__=='__main__':

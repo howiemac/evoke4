@@ -9,7 +9,7 @@ form: action=self.url("edit_image"), cls="form-horizontal", role="form"
     div:cls="form-group"
       div: cls="col-md-10"
         a:href=self.url(), title=self.name
-          img: cls="sectionacts", src=self.thumb_url(), alt=self.name
+          img: cls="acts", src=self.thumb_url(), alt=self.name
     div:cls="form-group"
       label:'caption', for_id='image_desc', cls="col-md-2"
       div: cls="col-md-10"

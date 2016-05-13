@@ -197,48 +197,10 @@ width: auto !important;
 }
 */
 
-/* section edit action buttons */
-.sectionacts img{
+/* edit action buttons */
+.acts img{
  height:16px;
 }
-
-
-/* section indent levels */
-.level0, .level1, .level2, .level3, .level4, .level5{
-margin: 0.4em 0;
-}
-.level0, .level1 {
- font-size:1.2em;
-}
-.level2 {
- font-size:1em;
-}
-.level3 {
- font-size:.9em;
-}
-.level4 {
- font-size:.8em;
-}
-.level5 {
- font-size:.7em;
-}
-.level0 h2, .level1 h2 {
- font-size:1.6em;
-}
-.level2 h2{
- font-size:1.4em;
-}
-.level3 h2{
- font-size:1.2em;
-}
-.level4 h2{
- font-size:1.1em;
-}
-.level5 h2{
- font-size:1em;
-}
-
-
 
 
 /********************** ratings ********************/

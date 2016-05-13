@@ -1,53 +1,18 @@
 # header ##################################
 Page_header.evo
-# content ###################################################################### 
+# content #################################
 div: id="content", cls="%s_content" % self.kind
-# actions ##############################
- Page_content_header.evo
-# start of section ###################################### 
- for section in self.sections:
-  if not section.cellcount:
-   #start a new row, if relevant.. i.e. ignore cell-holder sections
-   a:name=section.uid
-   if section.uid==req.view:
-    a:name="me"
-   if 'row' in section.tags:
-    '<div class="row">'
-   #cell
-   is_section= section.kind=='section'
-   # use trickery to add conditional div
-   if 'cell' in section.tags:
-    ' <div class="cell cell_%s col-md-%d">' % (section.cell, section.cell_to_col(section.cell))
-   div:cls='section'
-     # contents############################### 
-     if not is_section:
-      if req.contents:
-       div: id='contents'
-        ul:
-         for section in req.contents:
-          li:
-           a:section.name, href=section.url('view#%s' % section.uid)
-     # section header  #################################################### 
-     if is_section and section.name:
-       div:cls="headline"
-        if self.editable(req):
-         a:href=section.url("edit_section#me")
-          h2:section.name
-        else:  
-         h2:section.name   
-     # text  #################################################### 
-     section.Page_view_text.evo
-     # files  #################################################### 
-     section.Page_view_files.evo
-   # (end of section)    
-   #/row /cell /section
-   for tag in section.endtags.split():
-    "</div><!--end of %s %s-->" % (tag,section.uid)
- 
- # child page add / summaries ###################################################################### 
- Page_child_pages.evo
- if self.kind=='help' and self.parent==1:
-  div:self.Config.copyright.replace('\n','<br/>'), cls='light wee footnote'
+  # actions ###############################
+  Page_content_header.evo
+  #start a new row
+  div:cls='row'
+     # text  ##############################
+     self.Page_view_text.evo
+     # files  #############################
+     self.Page_view_files.evo
+  #/row
+  # child page add / summaries ############
+  Page_child_pages.evo
 #/content
-# footer (page info and prev/next item)  #################################################
+# footer (page info and prev/next item) ###
 Page_footer.evo

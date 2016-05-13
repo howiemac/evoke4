@@ -20,7 +20,7 @@ if self.get_images() and self.images:
      td:
       a:i.name,href=url
      td:
-      div:cls='sectionacts'
+      div:cls='acts'
        if req.user.can(self.swap):
         prev=lib.prev(i,self.images)
         if prev:

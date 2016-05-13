@@ -2,47 +2,32 @@
 Page_header.evo
 # content ###################################################################### 
 div: id="content", cls="%s_content" % self.kind.replace(" ","_")
- Page_content_header.evo
- # Page Actions
- Page_actions.evo
- # start of section ###################################### 
- for section in self.sections:
-  if not section.cellcount:
-   #start a new row, if relevant.. i.e. ignore cell-holder sections
-   a:name=section.uid
-   if section.uid==req.edit:
-    a:name="me"
-   if 'row' in section.tags:
-    '<div class="row">'
-   #cell
-   is_section= section.kind=='section'
-   # use trickery to add conditional div
-   if 'cell' in section.tags:
-    ' <div class="cell cell_%s col-md-%d">' % (section.cell, section.cell_to_col(section.cell))
-   div:cls='section'
-    if section.uid==req.edit:
-     # edit  #################################################### 
-     div: id='sectionedit'
-       form: action=section.url('save_text'), cls="form-horizontal", role="form"
-         # edit title ######################
-         #
+  Page_content_header.evo
+  # Page actions
+  Page_actions.evo
+  # start a new row
+  div: cls="row"
+    # edit  #################################################### 
+    div: id='pageedit'
+      form: action=self.url('save_text'), cls="form-horizontal", role="form"
+        # edit title ##################
         div: cls='row'
          div: cls="col-md-12"
           div: cls="form-group"
             label:"name",for_id='texttitle',cls='col-md-1'
             div: cls="col-md-11"
-              input: id="texttitle",  cls="form-control", name='name', value=section.name, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+              input: id="texttitle",  cls="form-control", name='name', value=self.name, onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
           # edit extras  #####################
-          if not is_section:
-            self.Page_edit_extras.evo
-          # edit text ############################################ 
+          self.Page_edit_extras.evo
+          # edit text #######################
           div: cls="form-group"
             label: "content", for_id="text", cls="col-md-1"
             div: cls="col-md-11"
-              textarea:section.text, cls="form-control", id="text", name="text", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
-#              textarea:section.text, cls="form-control", id="text", name="text", rows=8, onKeyUp="sizeArea(this);", onLoad="sizeArea(this);", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+              textarea:self.text, cls="form-control", id="text", name="text", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
+#              textarea:self.text, cls="form-control", id="text", name="text", rows=8, onKeyUp="sizeArea(this);", onLoad="sizeArea(this);", onChange="confirmExit = true;", onKeyPress="confirmExit = true;"
 #            script:"sizeArea(document.getElementById('text'));"
 #            script:"$('textarea').autosize();"
+        # save / post buttons ###############
         div: cls='edithead row'
          div: cls='col-md-2'
            if self.stage=='draft':
@@ -50,38 +35,9 @@ div: id="content", cls="%s_content" % self.kind.replace(" ","_")
              button: "post", name='post', onclick="confirmExit = false", cls="btn btn-primary"
            else:
              button: "save", name='save', onclick="confirmExit = false", accesskey="S", cls="btn btn-primary"
-         div: cls='sectionacts col-md-2'
-          section.Page_edit_buttons.evo
-    else:
-     # contents############################### 
-     if not is_section:
-      if req.contents:
-       div: id='contents'
-        ul:
-         for section in req.contents:
-          li:
-           a:section.name, href=section.url('view#%s' % section.uid)
-     # section header  #################################################### 
-     if self.editable(req):
-      div:cls='sectionacts'
-       a: title="edit", href=section.url("edit_section#me") 
-        img: src='/site/images/edit_buttons/edit.gif'
-       section.Page_edit_buttons.evo
-     if is_section and section.name:
-       div:cls="headline"
-        if self.editable(req):
-         a:href=section.url("edit_section#me")
-          h2:section.name
-        else:  
-         h2:section.name   
-     # text  #################################################### 
-     section.Page_view_text.evo
-   # (end of section)    
-   #/row /cell /section
-   for tag in section.endtags.split():
-    "</div><!--end of %s %s-->" % (tag,section.uid)
- # child page add / summaries  ###################################################################### 
- Page_child_pages.evo
+  #/row
+  # child page add / summaries  ###################
+  Page_child_pages.evo
 #/content
-# footer (page info and prev/next item)  #################################################
+# footer (page info and prev/next item)  #########################
 Page_footer.evo
