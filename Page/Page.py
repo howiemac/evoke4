@@ -489,9 +489,9 @@ class Page(Image,File):
     return self.redirect(req,'view')
 
   def swap(self,req):
-    "swaps seq of two sibling pages, allowing rearrangement of list order"
+    "swaps seq of two sibling pages OF THE SAME KIND, allowing rearrangement of list order"
     if req.swap:
-      self.renumber_siblings() 
+      self.renumber_siblings_by_kind() 
       swob=self.get(safeint(req.swap))
       z=self.seq
       self.seq=swob.seq

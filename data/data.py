@@ -361,6 +361,9 @@ class MassProducedSQLDataObject(SQLDataObject):
 
       # criteria
       if criteria:
+ #       print">>>>>> criteria items >>>>>"
+ #       for k,v in criteria.items():
+ #         print k,v
         criteria_sql, criteria_args = cls.sql_quoted_pairs(criteria.items(), link='and')
         sqlparts.append(criteria_sql)
         sqlargs += criteria_args
