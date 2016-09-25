@@ -88,8 +88,12 @@ class Reqbase(dict):
 
   def get_host(self):
     "host domain"
-    host = self.request.received_headers['host']
-    return str(self.request.received_headers.get('x-forwarded-host', host))
+    host = self.request.requestHeaders.getRawHeaders('host')[0]
+    try:
+      host= self.request.requestHeaders.getRawHeaders('x-forwarded-host')[0]
+    except:
+      pass
+    return str(host)
 
   def get_path(self):
     "path"

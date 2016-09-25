@@ -1002,7 +1002,7 @@ class Page(Image,File):
                 # boolean mode: + and - operators indicate that a word is required to be present or absent, respectively, 
                 #  for a match to occur. 
             # filter out duplicates
-            bodies=[p for p in bodies  if p.uid not in head_uids]   
+            bodies=[p for p in bodies if p.uid not in head_uids]   
             # add together
             heads.extend(bodies)
         # filter out private items
