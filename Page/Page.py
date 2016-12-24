@@ -389,11 +389,23 @@ class Page(Image,File):
       order="`when`,uid" 
     return order
 
-  def get_child_pages(self,req,first=False,pagemax=50,descend=False):
+# old version with "first", and "pagemax" instead of "limit"
+#
+#  def get_child_pages(self,req,first=False,pagemax=50,descend=False):
+#    """pages sequenced according to 'order_by' preference 
+#    - optional req.year or req.date, or req.match
+#    - optional req.limit, or pagemax, or first (mutually exclusive - first always starts at the beginning and gives the number to show)
+#    """
+
+  def get_child_pages(self,req,limit=50,descend=False):
     """pages sequenced according to 'order_by' preference 
     - optional req.year or req.date, or req.match
-    - optional req.limit, or pagemax, or first (mutually exclusive - first always starts at the beginning)
+    - optional req.limit or limit (mutually exclusive - akin to pagesize in def page() in lib/library.py)
     """
+    if ('limit' in req):
+      lim=safeint(req.limit) 
+    else: # default
+      lim=limit
     order=self.get_order()
     if req.date: # date in integer yyyymmdd format
         where="`when`=%d" % safeint(req.date) # date converted to safeint to foil SQL injection!
@@ -404,17 +416,14 @@ class Page(Image,File):
     else:
         where=""
     if descend or self.get_pref('show_descendants'): # shows every descendant posting you are allowed to see
-      if ('limit' in req):
-        lim=safeint(req.limit)
-      else: # default
-        lim=pagemax
-      items=self._latest(req,kinds=self.postkinds,where=where,order=order,limit=lim,first=first)
+      items=self._latest(req,kinds=self.postkinds,where=where,order=order,limit=lim)
     else:
-      if first:
-        lim="0,%s" % pagemax
-      else:	
-        lim=page(req,pagemax)
-      items=self.list(parent=self.uid,isin={'kind':self.postkinds},where=where,orderby=order,limit=lim)
+#      if first:
+#        lim="0,%s" % pagemax
+#      else:	
+#        lim=page(req,pagemax)
+#      items=self.list(parent=self.uid,isin={'kind':self.postkinds},where=where,orderby=order,limit=lim)
+      items=self.list(parent=self.uid,isin={'kind':self.postkinds},where=where,orderby=order,limit=page(req,limit))
     if not req.page: 
       req.page='view' # for paging
     return items
@@ -881,12 +890,13 @@ class Page(Image,File):
     req.page='drafts' # for paging
     return self.listing(req)
 
-  def _latest(self,req,kinds="",order="`when` desc",where="",limit=50, first=False):
+#  def _latest(self,req,kinds="",order="`when` desc",where="",limit=50, first=False):
+  def _latest(self,req,kinds="",order="`when` desc",where="",limit=50):
     " what's new? - based on lineage of the page, so page 1 gives everything"
-    if first: #  a non-False value for first must be the number of items to show (this overrides limit)
-     lim="0,%s" % first
-    else: 
-     lim=page(req,limit) if limit else ""
+#    if first: #  a non-False value for first must be the number of items to show (this overrides limit)
+#     lim="0,%s" % first
+#    else: 
+    lim=page(req,limit) if limit else ""
     _kinds=kinds or self.postkinds
     _where='%s%s lineage like "%s%%"' % ((where+" and ") if where else "","rating>=0 and" if self.uid==1 else "",self.lineage+str(self.uid)+'.') 
     #print where

@@ -410,7 +410,9 @@ def include(filename,ob,req):
 
 def content(ob,req):
   "wrapper include"    
-  return Evo("").evaluate(ob._v_content_pyc,ob,req)  
+#  return Evo("").evaluate(ob._v_content_pyc,ob,req)
+  #force to str to get rid of "WARNING: UNICODE STRING in evo/wrapper.evo - converted to str" errors in log
+  return str(Evo("").evaluate(ob._v_content_pyc,ob,req)) 
 
 namespace=locals()
 
