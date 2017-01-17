@@ -343,7 +343,7 @@ class TEXT(STR):
           return
 #        # paragraphs   
 #        elif line[0]==' ':  
-#         line='<p>%s</p>' % line[1:-1]
+#          line='<p>%s</p>' % line[1:-1]
       # append to result (converting linefeeds "<br/>" tags)
       result.append(line.replace('<blockquote>\n','<blockquote>').replace('\n','<br/>'))
       
