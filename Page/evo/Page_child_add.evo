@@ -16,5 +16,5 @@ if not req.user.as_guest():
          div: cls="input-group"
            input: name='name', value=req.get('name',''),id='textadd', cls="form-control",placeholder ="title"
            span: cls="input-group-btn"
-             button:'create', type="submit", cls="btn btn-default"
+             button:'create', cls="btn btn-default"
       #/form

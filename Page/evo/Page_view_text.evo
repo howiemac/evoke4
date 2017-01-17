@@ -1,5 +1,6 @@
 # inclusion to display text
 div: cls="row"
   div:cls='col-md-12 text'
-    self.Page_view_images.evo
-    self.text.formatted(req)
+    article:
+      self.Page_view_images.evo
+      self.text.formatted(req)

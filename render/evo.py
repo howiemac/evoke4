@@ -312,6 +312,7 @@ class basetag(object):
 
 #HTML tags
 a=tag('a')
+article=tag('article')
 b=tag('b')
 big=tag('big')
 body=tag("body")

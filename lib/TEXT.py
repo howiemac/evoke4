@@ -344,7 +344,8 @@ class TEXT(STR):
 #        # paragraphs   
 #        elif line[0]==' ':  
 #         line='<p>%s</p>' % line[1:-1]
-      result.append(line)
+      # append to result (converting linefeeds "<br/>" tags)
+      result.append(line.replace('<blockquote>\n','<blockquote>').replace('\n','<br/>'))
       
     #start of formatted
     self.has_more=False
@@ -394,14 +395,15 @@ class TEXT(STR):
 #        print result[-1]
       format_line(line,result)  
 #      print result[-1]
-      text="".join(result[1:])
+      text="\n".join(result[1:])
 #      print text
       #replace the pre-formatted tokens with the text 
       text=self.pre_token.sub(popPre,text)
       #fix glitches in  summarised text 
       if chars or lines:
         text=text.replace("&lt;",'"')
-      return text.rstrip('\n').replace('<blockquote>\n','<blockquote>').replace('\n','<br/>')
+#      return text.rstrip('\n').replace('<blockquote>\n','<blockquote>').replace('\n','<br/>\n')
+      return text.rstrip('\n')
     else:
       return ""  
 
