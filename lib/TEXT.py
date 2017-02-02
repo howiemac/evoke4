@@ -22,63 +22,9 @@ class TEXT(STR):
     'punct': punct_pattern,
   })
 
-  smilies={ 
-  ':)':'smile',
-  ':-)':'smile',
-  ':D':'laugh',
-  ':-D':'laugh',
-  ':P':'razz',
-  ':-P':'razz',
-  ':p':'razz',
-  ':-p':'razz',
-  ':c':'rage',  
-  ':-c':'rage',  
-  ':C':'rage',  
-  ':-C':'rage',  
-  ';)':'wink',
-  ';-)':'wink',
-  ':I':'indifferent',
-  ':-I':'indifferent',
-  ':|':'indifferent',
-  ':-|':'indifferent',
-  '8-)':'rolleye',           
-  ':/':'confused',
-  ':-/':'confused',
-  ':Q':'confused',
-  ':-Q':'confused',
-  ':?':'question',
-  ':!':'exclaim',
-  ':(':'sad',
-  ':-(':'sad',
-  ":'(":'cry',
-  ':O':'shocked',
-  ':-O':'shocked',
-  ':o':'shocked',
-  ':-o':'shocked',
-  ']:)':'evil',
-  ']:-)':'evil',
-  ']-)':'evil',
-  'B)':'cool',
-  'B-)':'cool',           
-  '[]':'love',
-  ':X':'love',
-  ':-X':'love',
-  ':x':'love',
-  ':-x':'love',
-  'O:)':'innocent',  
-  'O:-)':'innocent',  
-  ':*':'blush',  
-  ':-*':'blush'
-  }
-
-  smilie_items= [(k,"<img src='/site/images/smilies/%s.gif'/>" % v) for (k,v) in smilies.items()]
-  smilies_re= r'|'.join(map(re.escape,smilies.keys()))
-  other_replace_items= [("<","&lt;"),(">","&gt;")] # don't want < in output as it causes text to be skipped by the browser
-  other_replaces_re= r'|'.join(map(re.escape,dict(other_replace_items).keys()))
-  replaces= dict(smilie_items+other_replace_items)
-#  replace_rule= re.compile(r'(?<=\s)(?:%s)(?=\s|$)|%s' %  (smilies_re,other_replaces_re)) #smilies must have whitespace before and after them, not so for other replaces
-  replace_rule= re.compile(r'(?:%s)(?=\s|$)|%s' %  (smilies_re,other_replaces_re)) #smilies must have whitespace after them, not so for other replaces
-#  replace_rule= re.compile(r'|'.join(map(re.escape,replaces.keys())))
+  replace_items= [("<","&lt;"),(">","&gt;")] # don't want < in output as it causes text to be skipped by the browser
+  replaces= dict(replace_items)
+  replace_rule= re.compile(r'|'.join(map(re.escape,replaces.keys())))
   link_rule=re.compile(r'(\[)(.*?)(\])')
   pre_rule=re.compile(r'({{{)(.*?)(}}})|({{)(.*?)(}})|({)(.*?)(})',re.DOTALL)
   pre_token=re.compile(r'{}')
@@ -87,8 +33,7 @@ class TEXT(STR):
 
 #  style_rule=re.compile(r'(^| |\()([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][^ \n]*)',re.MULTILINE)
 #  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE) # joined styles
-  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n)][^ \n)]*)',re.MULTILINE) # styles joined by underlines
-
+  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE) # styles joined by underlines
 #  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*?)(\n| [\~\^\_\+\%\*]+[\n ])',re.MULTILINE) 
   linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) # styles with closing tags
 
@@ -132,7 +77,6 @@ class TEXT(STR):
     def pushPre(match):
       "keep the braces as well as the contents"
       g=match.groups()
-#      print "GROUPS",g
       pre.append((g[1] and g[0]+g[1]+g[2]) or (g[4] and g[3]+g[4]+g[5]) or (g[7] and g[6]+g[7]+g[8]))
       return '{}'
 
@@ -170,10 +114,10 @@ class TEXT(STR):
         z=source.split(' ',1)
         url=z[0]
         caption=len(z)==2 and (" "+z[1]) or " "
-	try:
-  	  page=req.user.Page.get(int(url))
+        try:
+          page=req.user.Page.get(int(url))
           fullurl=page.full_url()
-	except:
+        except:
           if lib.safeint(url): # broken link
             fullurl="0"
           else: # local url, hopefully..
@@ -185,7 +129,6 @@ class TEXT(STR):
     def pushPre(match):
       "keep the braces as well as the contents"
       g=match.groups()
-#      print "GROUPS",g
       pre.append((g[1] and g[0]+g[1]+g[2]) or (g[4] and g[3]+g[4]+g[5]) or (g[7] and g[6]+g[7]+g[8]))
       return '{}'
 
@@ -222,29 +165,29 @@ class TEXT(STR):
       return '<em>%s</em>' % match.group()
 
     def subcode(source):
-      return '<pre>%s</pre>' % source 
+      return '<pre>%s</pre>' % source
 
     def sublink(match):
       """deal with [page-uid] or [url] or [page-uid caption] or [url caption]
-         O/S - SPECIFIC to Page.py - SHOULD NOT BE IN base ???     
+         O/S - SPECIFIC to Page.py - SHOULD NOT BE IN base ???
          ugly stuff - maybe could be done better with more use of regex, methinks....
-	 BUT it does work and is clever enough....
+         BUT it does work and is clever enough....
          urls matched here will not be matched subsequently because they will be have been enclosed in parenthesis by link()
       """
       source=match.groups()[1].strip()
       match=self.url_rule.search(source)
       if match:# we have [url] or [url caption]
-        url=match.group()          
+        url=match.group()
         caption=source[match.end():] or url
         return _subURL(caption,url)
       else:# we have [page] or [page caption] or [local-url] or [local-url caption] 
         z=source.split(' ',1)
         url=z[0]
         caption=len(z)==2 and z[1] or ""
-	try: #is url a uid?
-  	  page=req.user.Page.get(int(url))
+        try: #is url a uid?
+          page=req.user.Page.get(int(url))
           return link(caption or page.name or page.code,page.url()) 
-	except:
+        except:
           if lib.safeint(url): # its an invalid uid
             return '<span class="broken">%s</span>' % (caption or ('[%s]' % source,))
           else:# its a local url, hopefully..
@@ -266,10 +209,9 @@ class TEXT(STR):
         return '<q>%s</q>' % g[1] 
       else: # must be g[4] - these are done in this rule as they need re.MULTILINE
         return '<blockquote class="evoke">\n%s</blockquote>' % g[4]
-	
+
     def subStyle(match):
       g=match.groups()
-#      return str(g)
       ops=reversed(g[1].strip())
       text=g[2].replace('_',' ')
       for op in ops:
@@ -305,7 +247,7 @@ class TEXT(STR):
       "reinstate the content, processed for display"
       t=pre.pop(0).replace('&','&amp;').replace('<','&lt;').replace('>','&gt;') #display nested html and entities as raw text
       return (t.find('\n',1)>-1 and '<pre>%s</pre>' or '<tt>%s</tt>') % t.strip('\n\r')
-      
+
 
     # format by line -------------------
 
@@ -324,29 +266,29 @@ class TEXT(STR):
       if prev!=l and (prev=='<ul>' or prev=='<ol>'):#finish previous list
           result[-1]+=('</'+prev[1:])*self.listlevel
       if list:
-	  line="<li>%s</li>" % text  
-  	  if prev!=l:# new list
-	    self.listlevel=level
-	    line=(l*level)+line
-	  else:
-	    inc=level-self.listlevel
+          line="<li>%s</li>" % text  
+          if prev!=l:# new list
+            self.listlevel=level
+            line=(l*level)+line
+          else:
+            inc=level-self.listlevel
             ll=inc<0 and ("</%sl>" % list)*-inc  or l*inc
-	    result[-1]+=ll+line
-	    self.listlevel=level
-	    return
+            result[-1]+=ll+line
+            self.listlevel=level
+            return
       if line:
         # tables
-	if line[0]=='|':
+        if line[0]=='|':
           if prevline[:1]!='|':
-	    result.append("<table>")
-	  result[-1]+="<tr><td>%s</td></tr>%s" % (line[1:].replace('|','</td><td>'),nextline[:1]!='|' and "</table>" or "")
+            result.append("<table>")
+          result[-1]+="<tr><td>%s</td></tr>%s" % (line[1:].replace('|','</td><td>'),nextline[:1]!='|' and "</table>" or "")
           return
 #        # paragraphs   
 #        elif line[0]==' ':  
 #          line='<p>%s</p>' % line[1:-1]
       # append to result (converting linefeeds "<br/>" tags)
       result.append(line.replace('<blockquote>\n','<blockquote>').replace('\n','<br/>'))
-      
+
     #start of formatted
     self.has_more=False
     if self:
@@ -355,9 +297,9 @@ class TEXT(STR):
 #  HTML truncation produces broken pages, so we simply refuse to do it for now .....   
 #        if chars: #
 #          self.has_more=chars<len(self)
-#	  return self[5:chars+5]
+#          return self[5:chars+5]
 #        else:
-	  return self[5:]
+        return self[5:]
       # get the text to process (with an extra linefeed to avoid end-of-file glitches)
       if chars:
         self.has_more=chars<len(self)
@@ -371,7 +313,7 @@ class TEXT(STR):
         text=self+'\n'
       #extract the pre-formatted text and replace with a token
       text=self.pre_rule.sub(pushPre,text)
-      #smilies, etc
+      #replaces (eg replace angle brackets with html entities)
       text=self.replace_rule.sub(subReplace,text)
       #handle quotes and links and styles
       text=self.blockquote_rule.sub(subBlockquote,text)
