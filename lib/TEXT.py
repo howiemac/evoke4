@@ -3,6 +3,8 @@ This module implements the TEXT class (a.k.a. TEXT), used for transient storage 
 
 O/S Currently assumes that Page.py is in use....
 
+implements self.formatted() and self.summarised()
+
 """
 
 import library as lib
@@ -13,15 +15,16 @@ class TEXT(STR):
   """
   Evoke text format handling
   """
-  #url matching
+  # re for url matching
   punct_pattern = re.escape(r'''"\'}]|:,.)?!''')
   url_pattern = r'http|https|ftp|nntp|news|mailto|telnet|file|irc|'
   url_rule = re.compile(r'%(url_guard)s(%(url)s)\:([^\s\<%(punct)s]|([%(punct)s][^\s\<%(punct)s]))+' % {
     'url_guard': r'(^|(?<!\w|"))',
     'url': url_pattern,
     'punct': punct_pattern,
-  })
+    })
 
+  # re for parsing
   replace_items= [("<","&lt;"),(">","&gt;")] # don't want < in output as it causes text to be skipped by the browser
   replaces= dict(replace_items)
   replace_rule= re.compile(r'|'.join(map(re.escape,replaces.keys())))
@@ -29,41 +32,29 @@ class TEXT(STR):
   pre_rule=re.compile(r'({{{)(.*?)(}}})|({{)(.*?)(}})|({)(.*?)(})',re.DOTALL)
   pre_token=re.compile(r'{}')
   blockquote_rule=re.compile(r'(&lt;\n)(.*?)(\n&gt;)|(&lt;\n)(.*?)($)',re.DOTALL) #note: this doesn't work with re.MULTILINE
-  quote_rule=re.compile(r'(&lt;)(.*?)(&gt;)|(^&gt;)(.*?)($)',re.DOTALL+re.MULTILINE)#note:  this needs re.MULTILINE
-
-#  style_rule=re.compile(r'(^| |\()([\~\^\_\+\%\*]+)([^\~\^\_\+\%\* \n][^ \n]*)',re.MULTILINE)
-#  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE) # joined styles
-  style_rule=re.compile(r'(^|[ (])([~^_+%*]+)([^~^_+%* \n][^ \n]*)',re.MULTILINE) # styles joined by underlines
-#  linestyle_rule=re.compile(r'(^| )([\~\^\_\+\%\*\)]+ )(.*?)(\n| [\~\^\_\+\%\*]+[\n ])',re.MULTILINE) 
-  linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) # styles with closing tags
-
-  styles={'~':'<i>%s</i>','^':'<b>%s</b>','_':'<u>%s</u>','+':'<big>%s</big>','%':'<small>%s</small>','*':'<strong>%s</strong>',')':'<center>%s</center>'} 
-  headerstyles={'==':'<h3>%s</h3>','--':'<h4>%s</h4>','++':'<h5>%s</h5>','__':'<h6>%s</h6>'} 
+  quote_rule=re.compile(r'(&lt;)(.*?)(&gt;)|(^&gt;)(.*?)($)',re.DOTALL+re.MULTILINE )#note:  this needs re.MULTILINE
+  underline_pattern=r'(^| ])(_+%*]+)([^~^_+%* \n][^ \n]*)'
+  # styles joined by underlines or other style symbols
+  style_rule=re.compile(r'(^| )([~^_+%*]+)([^~^_+%* \n][^ \n]*)( [?.,;?!][ /n]|)',re.MULTILINE) 
+  # styles with closing tags  
+  linestyle_rule=re.compile(r'(^| )([~^_+%*)]+ )(.*?)(\n| [~^_+%*]+[\n ])',re.MULTILINE) 
+  styles={'~':'<i>%s</i>'
+         ,'^':'<b>%s</b>'
+         ,'_':'<u>%s</u>'
+         ,'+':'<big>%s</big>'
+         ,'%':'<small>%s</small>'
+         ,'*':'<strong>%s</strong>'
+         ,')':'<center>%s</center>'
+         }
+  headerstyles={'==':'<h3>%s</h3>'
+               ,'--':'<h4>%s</h4>'
+               ,'++':'<h5>%s</h5>'
+               ,'__':'<h6>%s</h6>'
+               }
   section_rule=re.compile(r'(.*\n)(\*\*+)( *\n)',re.MULTILINE)
-#  list_rule=re.compile(r'(^[ \t]*)([-#])(.*)')
   list_rule=re.compile(r'(^ *)([-#])(.*)')
 
-#  def cleaned(self):
-#    "tidy up verbose styles DEPRECATED"
-#    
-#    def subclean(match):
-#      ""
-#      g=match.groups()
-#      text=g[2].replace('_',' ')
-#      ops=g[1].strip()
-#      ope=ops[::-1] # reversed
-#      for op in ops:
-#        text=text.replace(op,' ')
-#      if len(text.split())>1:  
-#        return "%s%s %s %s " % (g[0],ops,text,ope)
-#      else: # make no change
-#        return g[0]+g[1]+g[2]
-# 
-#    if self.lstrip().startswith(":HTML"):
-#      return self
-#    return TEXT(self.style_rule.sub(subclean,self))
-
-
+  # auto-sectioning into child pages (should be in page.py) ###################
   def sectioned(self):
     "splits ** headers into sections - e.g. called by Page.py when saving text"
 
@@ -101,6 +92,7 @@ class TEXT(STR):
     else:
       return [self]
 
+  # processing for export (should be in page.py) ####################
   def exported(self,req):
     """ expands links and returns export-ready text
     O/S - this function is currently specific to Page.py..... SHOULD NOT BE IN HERE....
@@ -150,7 +142,7 @@ class TEXT(STR):
     else:
       return ""  
 
-  
+  # text formatting ##########################################3
   def formatted(self,req,chars=0,lines=0):
     "formats self for display"
 
@@ -216,7 +208,8 @@ class TEXT(STR):
       text=g[2].replace('_',' ')
       for op in ops:
         text= self.styles[op] % text.replace(op,' ')
-      return g[0]+text
+      stop=g[3][1:] # final punctuation ? remove leading space..
+      return g[0]+text+stop
 
     def subLinestyle(match):
       g=match.groups()
