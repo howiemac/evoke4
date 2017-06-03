@@ -25,7 +25,7 @@ class TEXT(STR):
     })
 
   # re for parsing
-  replace_items= [("<","&lt;"),(">","&gt;"),(" - "," &mdash; ")] # don't want < in output as it causes text to be skipped by the browser
+  replace_items= [("<","&lt;"),(">","&gt;"),(" - "," &ndash; ")] # don't want < in output as it causes text to be skipped by the browser
   replaces= dict(replace_items)
   replace_rule= re.compile(r'|'.join(map(re.escape,replaces.keys())))
   link_rule=re.compile(r'(\[)(.*?)(\])')
@@ -53,7 +53,7 @@ class TEXT(STR):
                }
   section_rule=re.compile(r'(.*\n)(\*\*+)( *\n)',re.MULTILINE)
 #  list_rule=re.compile(r'(^ *)([-#])(.*)')
-  list_rule=re.compile(r'(^ *)([-#]|&mdash;)(.*)')
+  list_rule=re.compile(r'(^ *)([-#]|&ndash;)(.*)')
 
   # auto-sectioning into child pages (should be in page.py) ###################
   def sectioned(self):
