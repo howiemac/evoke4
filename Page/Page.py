@@ -416,7 +416,7 @@ class Page(Image,File):
     else:
         where=""
     if descend or self.get_pref('show_descendants'): # shows every descendant posting you are allowed to see
-      items=self._latest(req,kinds=self.postkinds,where=where,order=order,limit=page(req,lim))
+      items=self._latest(req,kinds=self.postkinds,where=where,order=order,limit=lim)
     else:
 #      if first:
 #        lim="0,%s" % pagemax
