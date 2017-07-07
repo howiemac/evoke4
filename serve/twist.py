@@ -12,7 +12,7 @@ from twisted.internet import defer
 from twisted.web.server import Session
 from twisted.web.server import NOT_DONE_YET
 from twisted.web.server import GzipEncoderFactory
-from base.serve import publish, Dispatcher
+from base.serve import respond, Dispatcher
 from twisted.python.log import ILogObserver, FileLogObserver
 from twisted.python.logfile import DailyLogFile
 
@@ -29,7 +29,7 @@ class EvokeResource(Resource):
   isLeaf = True
 
   def render_GET(self, request):
-    res = publish(request, self.evokeDispatcher)
+    res = respond(request, self.evokeDispatcher)
     # handle deferred results
     if isinstance(res, defer.Deferred):
       res.addCallback(self.render_deferred, request)

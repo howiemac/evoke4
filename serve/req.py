@@ -131,8 +131,8 @@ class Req(Reqbase):
       self[k] = v
 
 
-def publish(request, dispatcher):
-  "initialise req from the Twisted reauest"
+def respond(request, dispatcher):
+  "initialise req from the Twisted request, then call the dispatcher"
   # First we need to transform the request into our own format
   # our format is {key:value, .., cookies:{key:value}, request:request}
   req = Req()
