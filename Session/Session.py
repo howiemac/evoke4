@@ -17,21 +17,21 @@ class Session(object):
     avatarId = getattr(req.request, 'avatarId', None) #req.request.avatarId
     if avatarId and avatarId != 'guest':
       user = self.User.fetch_user(avatarId) or guest  # fetch_user returns none if user not recognised
-      print "we have an avatar: ", avatarId, " maps to user ", user.id 
+#      print "we have an avatar: ", avatarId, " maps to user ", user.id 
     elif '__user__' in req and '__pass__' in req:
       user = self.User.fetch_if_valid(req['__user__'], req['__pass__']) or guest # returns guest if not valid
-      print "we have a login, __user__ ", req['__user__'], " maps to user ", user.id
+#      print "we have a login, __user__ ", req['__user__'], " maps to user ", user.id
     else:
       user = guest
       nocred = True
-      print "no credentials - we assume guest unless the session tells us otherwise"
+#      print "no credentials - we assume guest unless the session tells us otherwise"
 
     id = req.request.getSession().uid
 
     # look for an existing session
     sessions = self.list(id=id, stage='')
     if sessions:
-      print "Found a session", id
+#      print "Found a session", id
       session = sessions[0]
       # check the request against the content of the session
       criteria = [
@@ -41,7 +41,7 @@ class Session(object):
       # if any of our checks fail expire the session
       if not all(criteria):
         req.request.getSession().expire()
-        print "ip address didn't match."
+#        print "ip address didn't match."
         return guest
 
       # user identity:  if the session user is guest but another user has
@@ -51,30 +51,30 @@ class Session(object):
       
       # session.user is guest and req.user is guest:  return guest
       if session.user == guest.uid and user.uid == guest.uid:
-        print "definitely a guest"
+#        print "definitely a guest"
         return guest
 
       # session has a user and no credentials have been offered
       # return the user specified in the session
       if session.user != guest.uid and nocred:
-        print "no credentials provided but the session has a valid user"
+#        print "no credentials provided but the session has a valid user"
         return self.User.get(session.user)  
 
       # session user != guest and req.user differs: expire session, return guest
       if session.user != guest.uid and session.user != user.uid:
-        print "user doesn't match the session"
+#        print "user doesn't match the session"
         req.request.getSession().expire()
         return guest
 
       # session.user is guest and req.user != guest: update.session user and return user
       if session.user == guest.uid and user.uid != guest.uid:
-        print "user matches the session"
+#        print "user matches the session"
         session.user = user.uid
         session.flush()
         return user
 
     else:
-      print "creating new session", id
+#      print "creating new session", id
       session = self.new()
       session.id = id
       session.user = user.uid

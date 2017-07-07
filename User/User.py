@@ -190,7 +190,9 @@ class User:
   @classmethod
   def validate_user(cls,req):
     ""
+    # print "GOT TO VALIDATE_USER...",req.user and req.user.id or "NO USER"
     req.user=cls.validated_user(req)
+    # print "GOT TO AFTER VALIDATED_USER...",req.user and req.user.id or "NO USER"
     req.user.get_permits()
 #    print "req.user set to: ",req.user
  
@@ -202,7 +204,7 @@ class User:
        available as req.request.avatarId
     """
     user= cls.Session.fetch_user(req)
-    print "VALIDATED USER:",user.id
+    # print "VALIDATED USER:",user.id
     # play around with cookies
     if user.uid>1 and req.get("evokeLogin"):
       #found a valid user in the request, so set the cookies 

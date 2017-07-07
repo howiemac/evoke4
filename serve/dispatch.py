@@ -28,7 +28,7 @@ class dispatcherCode(Parser):
       req.error = 'invalid domain "%s"' % req._v_domain
       return self.doUnknown(req)
 
-    # find and validate the user, and store it in req
+    # find and validate the user, and store it as req.user
     self.apps[req._v_domain]["User"].validate_user(req)
 
     # handle the flat files first
@@ -158,6 +158,7 @@ class dispatcherCode(Parser):
     # give a hook for apps to add attributes to req at this point
     req.user.hook(req, ob, method, url)
     if req.user.can(fn):
+ #     print req.user.id, repr(req.request)
       try:  # return the result of the function
         return fn(req)
 #      except RecordNotFoundError, e:
