@@ -52,48 +52,6 @@ class File(object):
     return self.get_pob().redirect(req,'add_file')
   edit_file.permit='edit page'
 
-
-#  @html
-#  def view(self,req):
-#    ""
-#    req.page="view"
-
-
-  def add_file(self,req):
-    ""
-    _file=self.file_saved(req)
-    if hasattr(self,'files'):
-      del self.files # clear cache
-    return self.file_add(req)
-  add_file.permit='edit page' 
-
-# O/S all the followimg should be in file.py - see save_file() below...
-  def file_loc(self,name=''):
-    "file location"
-    return '%ssite/data/%s/%s' % ( self.Config.htdocs_filepath,self.file_folder(),name or self.code)
-
-  def file_folder(self):
-    """folder (within data folder) for a file:
-    - this can be overridden by apps
-    based on uid:
-    - returns "123/456" for uid 123456789, so filepath will be 123/456/filename.ext
-    - this allows us to exceed a billion files.... (or more precisely a billion pages)
-    - if it over-rides, eg 1,234,567,890 we get 1234/567/filename.ext, so it doesn't immediately break...."""
-    s="%09d" % self.uid
-    return "%s/%s" % (s[:-6],s[-6:-3])
-
-  def filedata(self,folder='',name=''):
-    "return file data as a string - generic, used also for images"
-    d='%ssite/data/%s' % (self.Config.htdocs_filepath,folder or self.file_folder())
-    fp='%s/%s' % (d,name or self.code)
-    try:
-      f=file(fp)
-      return f.read()
-    except:
-      return ''
-
-
-
   def add_file(self,req):
     ""
     _file=self.file_saved(req)
@@ -126,8 +84,6 @@ class File(object):
     except:
       return ''
 
-
-      
   def save_file(self,content,folder="",name=''):
     "save actual file in filesystem - generic, used also for images"
     folders=folder or self.file_folder()

@@ -189,10 +189,8 @@ class User:
 
   @classmethod
   def validate_user(cls,req):
-    ""
-    # print "GOT TO VALIDATE_USER...",req.user and req.user.id or "NO USER"
+    "hook method to allow <app>.User subclass to override the default validation and permit setting"
     req.user=cls.validated_user(req)
-    # print "GOT TO AFTER VALIDATED_USER...",req.user and req.user.id or "NO USER"
     req.user.get_permits()
 #    print "req.user set to: ",req.user
  
