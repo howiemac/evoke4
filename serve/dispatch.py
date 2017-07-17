@@ -216,7 +216,7 @@ class dispatcherCode(Parser):
       return msg
 
 
-class dispatcherInit:
+class dispatcherInit(object):
   ""
   def __init__(self, apps=[]):
     "system start-up"

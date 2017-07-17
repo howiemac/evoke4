@@ -14,8 +14,11 @@ from data.schema import *
 evoke_version=3 #code version - do not play with this unless you are SURE you know what you are doing....
 evoke_major_version=2 # do not change this
 
-# the following are set in serve/app.py and cannot be overridden
-# copyright= ... # this message is shown on the main help page
+# the following are set in serve/app.py and can be used but not should not be overridden - they are here for information only:
+# copyright= ... # this message is shown on the console log on startup
+# app_filepath= ...
+# base_filepath= ...
+# htdocs_filepath= ...
 
 # the following MUST be provided in an app's config.py or config_site.py
 domains=["127.0.0.1"] # eg ['versere.com','www.versere.com']
@@ -28,12 +31,12 @@ connect='127.0.0.1 base 123456' #database connection parameters - normally only 
 urlpath='/evoke'  # must have a preceding "/", or else be ""
 urlhost='' #if not provided, this is set to 'http://'+self.Config.domain by serve/app.py - this assumes the system is running on port 80, as far as the outside world is concerned
 sitename='' # if not given, hostname will generally be used
+
 default_class=None # when supplied, enables urls of the form: domain/urlpath/12345 or (if not urlpath) domain/12345, which will call (the view() method of) uid 12345 for the default_class
 
-mailto= 'admin@versere.com' #contact email address
+mailto= 'mail@localhost' #contact email address
 mailfrom= '' # email from address - if empty string or False, no emails will be sent
 bugmailto= '' # email to address for bug email alerts - empty string means no emails will be sent
-
 SMTPhost= '127.0.0.1' #email SMTP host - if empty string or False, no emails will be sent
 SMTPlogin=() #email SMTP login, in form (<user>,<password>), if there is a login required
 

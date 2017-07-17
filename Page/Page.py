@@ -415,6 +415,7 @@ class Page(Image,File):
         where="name like '%s%%'" % req.match 
     else:
         where=""
+    # get the pages
     if descend or self.get_pref('show_descendants'): # shows every descendant posting you are allowed to see
       items=self._latest(req,kinds=self.postkinds,where=where,order=order,limit=lim)
     else:
@@ -423,7 +424,7 @@ class Page(Image,File):
 #      else:	
 #        lim=page(req,pagemax)
 #      items=self.list(parent=self.uid,isin={'kind':self.postkinds},where=where,orderby=order,limit=lim)
-      items=self.list(parent=self.uid,isin={'kind':self.postkinds},where=where,orderby=order,limit=page(req,lim))
+      items=self.list(parent=self.uid,stage='posted',isin={'kind':self.postkinds},where=where,orderby=order,limit=page(req,lim))
     if not req.page: 
       req.page='view' # for paging
     return items

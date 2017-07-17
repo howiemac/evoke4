@@ -1,23 +1,23 @@
 from re import compile as RX
-import itertools  
+import itertools
 
-class Parser:  
+class Parser(object):
 
-  URI_TYPES = (  ('export' ,	RX('/(.*?)/([0-9]*?)/(.*?\.eve)$'))
-                , ('obj',      RX('/()([0-9]+?)/(.*?)$'))                                                                                 
-                , ('obj',      RX('/()([0-9]+?)()$'))                                                                                     
-                , ('obj',	RX('/(.+?)/([0-9]+?)/(.*?)$'))
-                , ('obj',	RX('/(.+?)/([0-9]+?)()$'))
+  URI_TYPES = (  ('export' ,    RX('/(.*?)/([0-9]*?)/(.*?\.eve)$'))
+                , ('obj',       RX('/()([0-9]+?)/(.*?)$'))
+                , ('obj',       RX('/()([0-9]+?)()$'))
+                , ('obj',       RX('/(.+?)/([0-9]+?)/(.*?)$'))
+                , ('obj',       RX('/(.+?)/([0-9]+?)()$'))
                 , ('namedobj',  RX('/(.+?)/([a-zA-Z0-9\-]+?)/(.*?)$'))
-    		, ('cls' ,	RX('/(.+?)/()(.*?)$'))
-    		, ('obj' ,	RX('/()()(.+?)$'))
-                , ('default', 	RX('/()()()$'))
+                , ('cls' ,      RX('/(.+?)/()(.*?)$'))
+                , ('obj' ,      RX('/()()(.+?)$'))
+                , ('default',   RX('/()()()$'))
                   )
-  
+
   def parseUri(self, uri):
     "return (uri_type, class, uid, method) for this uri"
     # create an iterator to find the first matching uri type
-    type_comparison = ((name, rx.match(uri)) for name, rx in self.URI_TYPES)    
+    type_comparison = ((name, rx.match(uri)) for name, rx in self.URI_TYPES)
     type_match = itertools.dropwhile(lambda x: not x[1], type_comparison)
     try:
       uri_type, groups = type_match.next()

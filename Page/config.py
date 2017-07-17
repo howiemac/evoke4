@@ -12,6 +12,8 @@ show_time=True # is the date/time of items shown?
 order_by='latest' # default page listing order 
 thumb_size=120 # image thumbnail size (width)  - this is storage size, they may be displayed smaller using CSS
 
+# flat_files=False #set this to True if you wish posting of a page to publish it as flat html - NOT YET IMPLEMENTED
+#                 #  - then urls in the form domain/123 will be served to a guest user as flat files 
 
 # the following are overrides of config_base parameters
 permits={'master':['be'],'user':['edit'],'page':['create','edit','admin']} #basis of permit system
