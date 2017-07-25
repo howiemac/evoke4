@@ -7,11 +7,20 @@ import os
 from twisted.application import internet
 from twisted.web import server
 from twisted.web.resource import Resource
-from twisted.web.resource import EncodingResourceWrapper
 from twisted.internet import defer
 from twisted.web.server import Session
 from twisted.web.server import NOT_DONE_YET
-from twisted.web.server import GzipEncoderFactory
+
+# try to import resources for gzipping (not available in older twisted versions
+try:
+  from twisted.web.resource import EncodingResourceWrapper
+  from twisted.web.server import GzipEncoderFactory
+  has_gzip = True
+except ImportError:
+  print "no gzip encoding available"
+  has_gzip = False
+
+
 from base.serve import respond, Dispatcher
 from twisted.python.log import ILogObserver, FileLogObserver
 from twisted.python.logfile import DailyLogFile
@@ -56,10 +65,14 @@ def start(application, apps=[]):
   resource = EvokeResource()
   resource.evokeDispatcher = dispatcher
 
-  # serve gzipped content
-  wrapped = EncodingResourceWrapper(resource, [GzipEncoderFactory()])
+  if has_gzip:
+    # serve gzipped content
+    wrapped = EncodingResourceWrapper(resource, [GzipEncoderFactory()])
+    fileServer = server.Site(wrapped)
+  else:
+    # serve plain content
+    fileServer = server.Site(resource)
 
-  fileServer = server.Site(wrapped)
   fileServer.sessionFactory = LongSession  # use long session
 #  evokeService=internet.TCPServer(int(dispatcher.apps['port']),fileServer)
   port = int(dispatcher.apps.values()[0]['Config'].port)

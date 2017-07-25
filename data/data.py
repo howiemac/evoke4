@@ -268,8 +268,8 @@ class MassProducedSQLDataObject(SQLDataObject):
 
     #print "LIST: old=%d / %.4f new=%d / %.4f" % (len(oldres), oldtime, len(newres), newtime)
     #assert oldres==newres, "Old and new list give different results"
-    
     return newres
+
 
   @classmethod
   @Permit('no way')
@@ -331,7 +331,7 @@ class MassProducedSQLDataObject(SQLDataObject):
     pager = Start page of results divided by page length. Overrides limit parameter
     pageLength = length of pages - use in combination with pager parameter
     what = fields to be returned by query  DEPRECATED CJH 20130408
-      we can't use sql args with field names so this is a (in practise minute) risk
+      we can't use sql args with field names so this is in practise a minute risk..
     _debug = if True print prepared sql statement 
     **criteria = remaining field value pairs map to WHERE statement assersions which must all be true
 
