@@ -8,16 +8,14 @@ CURRENTLY BODGED BY FORCING UPPERCASE FOR SEARCH TERM IN THIS PARTICULAR EXAMPLE
 
 URGENT
 ==
-- exclude drafts from listings (optionally via preference?)
 - move / copy
 - user mode
+- import/export
 
 
 
 LATER
 ==
-- import/export
-
 - replace req.req and url.req with the new mp.base versions...
 
 - there should be a base EvoType object, even if it only has the __hash__ declaration in it. 

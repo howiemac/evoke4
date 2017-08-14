@@ -11,8 +11,8 @@ configuration value here act as defaults, so NO PARAMETER SHOULD BE REMOVED
 from data.schema import *
 
 #do NOT override these in other config files
-evoke_version=3 #code version - do not play with this unless you are SURE you know what you are doing....
-evoke_major_version=2 # do not change this
+evoke_version=4 # minor code version - do not play with this unless you are SURE you know what you are doing....
+evoke_major_version=4 # do not change this - odd numbers are development, even numbers are stable
 
 # the following are set in serve/app.py and can be used but not should not be overridden - they are here for information only:
 # copyright= ... # this message is shown on the console log on startup
