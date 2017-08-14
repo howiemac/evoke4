@@ -1,6 +1,8 @@
-This is the "base" folder of EVOKE.
 
 EVOKE is a simple and powerful python web framework with pythonic "evo" templating.
+
+This is EVOKE version 4 (stable for python2.7).
+
 
 installation
 ==
