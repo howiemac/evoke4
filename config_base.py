@@ -50,6 +50,9 @@ port='8080' #for multiserve, this MUST be put in config_multi.py, to override an
 #the following applies only to base_multi.py, and MUST be set in base/config_multi.py
 apps=[]
 
+# Formatter - default to standard, may be overriden with 'markdown'
+text_formatter = ''
+
 #the following data schema may be subclassed or overidden in an app's config.py
 
 class Var(Schema):
