@@ -422,7 +422,7 @@ class TEXT(STR):
         def subimage(match):
             "render a [IMG (uid|url) attributes?]"
             source = match.groups()[1]
-            print match.groups()
+#            print match.groups()
             if ' ' in source:
                 url, atts = source.split(' ', 1)
             else:
