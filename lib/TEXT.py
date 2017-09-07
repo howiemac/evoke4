@@ -13,7 +13,6 @@ import urllib, re
 from markdown import Markdown
 from evolinks import EvoLinkExtension
 from html2text import html2text
-import config_site as Config
 
 
 def markdown(text, req, *a, **k):
