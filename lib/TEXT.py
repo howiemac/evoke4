@@ -181,6 +181,12 @@ class TEXT(STR):
     def formatted(self, req, chars=0, lines=0):
         "formats self for display"
 
+        # check for override:
+        # Substitute TEXT.markdown for TEXT.format if specified in config
+        print (req.Config)
+        if getattr(req.Config, 'text_formatter', '') == 'markdown':
+            return self.markdown(req, chars, lines)
+
         def link(title, url, external=False):
             return '<a href="%s" %s>%s</a>' % (
                 url, external and 'target="_blank"' or '', title)
@@ -448,9 +454,6 @@ class TEXT(STR):
 
         return markdown(text, req)
 
-    # Substitute TEXT.markdown for TEXT.format if specified in config
-    if getattr(Config, 'text_formatter', '') == 'markdown':
-        formatted = markdown
 
 
 def test():

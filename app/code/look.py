@@ -35,7 +35,14 @@ sys.path.insert(1, os.path.abspath('../..'))
 
 from config_site import domains
 
+from base.serve import Req
+req = Req()
+req.cookies = {}
+
 # start up
 from base.serve import Dispatcher
 dispatcher = Dispatcher()
 globals().update(dispatcher.apps[domains[0]])
+
+for clsname, cls in dispatcher.apps[domains[0]].items():
+    setattr(req, clsname, cls)

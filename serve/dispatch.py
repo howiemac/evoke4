@@ -31,6 +31,10 @@ class dispatcherCode(Parser):
     # find and validate the user, and store it as req.user
     self.apps[req._v_domain]["User"].validate_user(req)
 
+    # Give req a reference to the app classes
+    for classname, cls in self.apps[req._v_domain].items():
+        setattr(req, classname, cls)
+
     # handle the flat files first
     # note that apache may have already fielded these 
     # ( the obsolete "/Resources/" is included for now so that any old links don't break... - IHM 31/10/2014)  
