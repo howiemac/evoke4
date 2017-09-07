@@ -457,7 +457,14 @@ class TEXT(STR):
 
     def to_markdown(self, req):
         """Render to html using formatter, then use html2text to convert to Markdown"""
+        html = self.formatted(req)
+        md = html2text(html)
+        # arguably we should convert links to [url caption] rather than
+        # [url](caption) but since this method is intended to convert
+        # legacy text in bulk the effort and potential for corner cases
+        # suggests we should leave them as they are.
 
+        return md
 
 
 def test():
