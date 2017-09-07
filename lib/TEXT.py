@@ -12,6 +12,7 @@ from STR import STR
 import urllib, re
 from markdown import Markdown
 from evolinks import EvoLinkExtension
+from html2text import html2text
 import config_site as Config
 
 
@@ -453,6 +454,9 @@ class TEXT(STR):
         text = self.table_rule.sub(subtable, text)
 
         return markdown(text, req)
+
+    def to_markdown(self, req):
+        """Render to html using formatter, then use html2text to convert to Markdown"""
 
 
 
