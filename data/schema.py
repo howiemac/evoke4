@@ -27,9 +27,9 @@ TEXTKEY: for defining multi-column fulltext indices -  CURRENTLY MODIFICATIONS A
 if __name__=='__main__': 
   import sys,os
   sys.path.append(os.path.abspath('..'))
-  from lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error
+  from lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE
 else:
-  from base.lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error
+  from base.lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE
   from DB import execute
 
 class SchemaMismatchError(Error):

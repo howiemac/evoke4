@@ -80,6 +80,23 @@ class Condition(object):
     return fn
 
 
+class Conditionfn(object):
+  ""
+  def __init__(self, check):
+    "check is a function expecting an object"
+    self._check = check
+
+  #### TODO make sure req and ob are passed to check ####
+
+  def check(self, req, ob):
+    ""
+    return self._check(ob)
+
+  def __call__(self, fn):
+    "apply condition to function"
+    fn.condition = self.check
+    return fn
+
 # testing
 
 def admin(fn):

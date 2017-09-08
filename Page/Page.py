@@ -90,6 +90,7 @@ class Page(Image, File):
             ob.__override_classname__ = override_classname
         ob.get = self.__get__
         return ob
+    override_get = get  # workaround 
 
     def __repr__(self):
         ""

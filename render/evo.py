@@ -296,6 +296,9 @@ class basetag(object):
   def __init__(self,_content="",**attributes):
     self.content=_content
     self.attributes=dict(self.defaults) #separate copy
+    # make cls cumulative
+    if 'cls' in self.attributes or 'cls' in attributes:
+      attributes['cls'] = ' '.join((self.attributes.get('cls', ''), attributes.get('cls', '')))
     self.attributes.update(attributes) #now, attributes contains everything we need
 #    print "ATTRIBUTES:",self.attributes
   
@@ -305,9 +308,17 @@ class basetag(object):
    'for_id':'for',
    'typ':'type'
    }
-    
+   
   def out(self,indent=0):
-    attributes="".join([(' %s="%s"' % (self.keymap.get(k,k),str(v).replace('"',"&quot;"))) for (k,v) in self.attributes.items() if v or (k not in ('checked', 'selected','disabled'))])
+
+    def subst(k):
+      "substitute attribute name"
+      if k in self.keymap:
+        return self.keymap[k]
+      # convert _ to -
+      return k.replace('_', '-')
+
+    attributes="".join([(' %s="%s"' % (subst(k),str(v).replace('"',"&quot;"))) for (k,v) in self.attributes.items() if v or (k not in ('checked', 'selected','disabled', 'itemscope'))])
     return self.template % dict(indent=" "*indent,attributes=attributes,content=self.content,_comment=not sparse and 'id' in self.attributes and (" <!-- end of %s -->" % self.attributes.get('id')) or "")
 
 #HTML tags
@@ -317,7 +328,7 @@ b=tag('b')
 big=tag('big')
 body=tag("body")
 br=tag("br/")
-button=tag('button',typ='submit')
+button=tag('button',type='submit')
 #caption=tag('caption')
 center=tag('center')  # deprecated - use CSS
 cite=tag('cite')
@@ -339,7 +350,7 @@ html=tag("html")
 i=tag("i")
 #img=tag('img/',border='0')
 img=tag('img/')
-input=tag('input/',typ='text',value='')
+input=tag('input/',type='text',value='')
 label=tag('label')
 legend=tag('legend')
 li=tag('li')
@@ -348,6 +359,7 @@ meta=tag('meta/')
 noscript=tag('noscript')
 ol=tag('ol')
 option=tag('option')
+optgroup=tag('optgroup')
 p=tag("p")
 pre=tag('pre')
 script=tag('script',type="text/javascript")
@@ -361,14 +373,46 @@ textarea=tag('textarea',_clean=True)
 tfoot=tag('tfoot')
 th=tag('th')
 thead=tag('thead')
+tbody=tag('tbody')
+tfoot=tag('tfoot')
 title=tag("title")
 tr=tag('tr')
 ul=tag('ul')
 nav=tag("nav")
+urlbase = tag('base')
+iframe = tag("iframe")
+# html5
+section = tag("section")
+header = tag('header')
+footer = tag('footer')
+article = tag('article')
 # obsolete but useful
 style=tag('style')
 font=tag('font')
 strong=tag('strong')
+
+# convenient
+css = tag('link', rel="stylesheet", type="text/css")
+
+# Bootstrap shortcuts
+row = tag('div', cls='row')
+container = tag('div', cls="container")
+fluid = tag('div', cls="container-fluid")
+col1 = tag('div', cls="col-md-1")
+col2 = tag('div', cls="col-md-2")
+col3 = tag('div', cls="col-md-3")
+col4 = tag('div', cls="col-md-4")
+col5 = tag('div', cls="col-md-5")
+col6 = tag('div', cls="col-md-6")
+col7 = tag('div', cls="col-md-7")
+col8 = tag('div', cls="col-md-8")
+col9 = tag('div', cls="col-md-9")
+col10 = tag('div', cls="col-md-10")
+col11 = tag('div', cls="col-md-11")
+col12 = tag('div', cls="col-md-12")
+formgroup = tag('div', cls="form-group")
+
+
 # special tags
 
 

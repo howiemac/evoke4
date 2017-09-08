@@ -118,6 +118,10 @@ class FLOAT(object):
   _v_default=0.0
 
 
+class DOUBLE(FLOAT):
+  _v_mysql_type="double"
+
+
 def test():
   x=FLOAT('8.75')
   assert x.valid
