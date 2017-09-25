@@ -5,7 +5,8 @@
     Depends on pip install libsass and watchdog
 
 """
-from sassutils import builder
+#from sassutils import builder
+from sassbuilder import build_directory
 import sys
 import time
 import logging
@@ -29,7 +30,7 @@ def compile():
     """Compile sass to css"""
     with lock:
         try:
-            builder.build_directory(SASS, CSS)
+            build_directory(SASS, CSS)
             logging.info('compiled')
         except:
             logging.debug('compilation error', exc_info=True)
