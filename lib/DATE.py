@@ -85,8 +85,13 @@ class DATE(object):
 #              raise
               pass
             date=sd[0]   
-          date=date.replace('-','/').replace(' ','')# sort out minor user input anomalies
-          d,m,y=date.split('/')
+
+          # 20171130 allow for YYYY-mm-dd, new standard format for Firefox builtin date widget
+          if '-' in date and date.split('-')[0] > 31:
+              y,m,d = date.split('-')
+          else:
+              date=date.replace('-','/').replace(' ','')# sort out minor user input anomalies
+              d,m,y=date.split('/')
         #allow for shorthand years 
         y=int(y)
         y+=(y<70 and 2000 or ((y<100 and 1900) or 0))
