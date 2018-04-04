@@ -15,7 +15,7 @@ from DATE import DATE
 from STR import TAG, STR, CHAR
 from TEXT import TEXT
 from INT import INT, SMALLINT, TINYINT
-from FLOAT import FLOAT, DOUBLE
+from FLOAT import FLOAT, DOUBLE, VAST
 from MONEY import MONEY
 from TIME import TIME
 from FLAG import FLAG

@@ -122,6 +122,10 @@ class DOUBLE(FLOAT):
   _v_mysql_type="double"
 
 
+class VAST(FLOAT):
+  _v_mysql_type="decimal(44,20)"
+
+
 def test():
   x=FLOAT('8.75')
   assert x.valid

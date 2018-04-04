@@ -4,7 +4,7 @@ script:"window.onload= function(){document.login.__%s__.focus()}" % (user and "p
 
 # login form
 div: cls="row"
-  div: cls="col-md-12"
+  div: cls="col-md-12 col-sm-offset-2"
 
     h1: cls='login'
       "please log in"

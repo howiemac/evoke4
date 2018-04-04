@@ -27,9 +27,9 @@ TEXTKEY: for defining multi-column fulltext indices -  CURRENTLY MODIFICATIONS A
 if __name__=='__main__': 
   import sys,os
   sys.path.append(os.path.abspath('..'))
-  from lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE
+  from lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE, VAST
 else:
-  from base.lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE
+  from base.lib import TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB,sql_list,Error, DOUBLE, VAST
   from DB import execute
 
 class SchemaMismatchError(Error):
@@ -50,7 +50,7 @@ class Schema(object):
   table='tablename'
   `fieldname`=TYPE,default,KEY' # for each field, where TYPE in TYPES , KEY and default are optional, and can be swapped in  order
   """
-  TYPES=(TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB)
+  TYPES=(TAG,STR,CHAR,TEXT,INT,SMALLINT,TINYINT,FLOAT,DATE,FLAG,MONEY,TIME,REL,BLOB, DOUBLE, VAST)
   _v_built=[]
 
  
